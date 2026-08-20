@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
 	"github.com/hanayo-dot/KIVU/backend/config"
@@ -113,7 +112,7 @@ func (s *AuthService) issueTokens(farmer models.Farmer) (*models.TokenResponse, 
 		"exp":       accessExpiresAt.Unix(),
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHMAC256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	accessTokenStr, err := token.SignedString([]byte(s.cfg.JWTSecret))
 	if err != nil {
 		return nil, fmt.Errorf("failed to sign access token: %w", err)
