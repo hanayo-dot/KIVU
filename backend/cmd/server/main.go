@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/hanayo-dot/KIVU/backend/config"
 	"github.com/hanayo-dot/KIVU/backend/database"
+	"github.com/hanayo-dot/KIVU/backend/routes"
 )
 
 func main() {
@@ -21,5 +23,11 @@ func main() {
 	}
 	defer db.Close()
 
-	log.Println("KIVU Backend Core Foundation & PostGIS DB pool ready.")
+	router := routes.SetupRouter(cfg, db.DB)
+
+	serverAddr := fmt.Sprintf(":%s", cfg.ServerPort)
+	log.Printf("KIVU Backend ready and listening at http://localhost%s", serverAddr)
+	if err := router.Run(serverAddr); err != nil {
+		log.Fatalf("Fatal: HTTP Server crashed: %v", err)
+	}
 }
