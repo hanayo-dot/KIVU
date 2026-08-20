@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/hanayo-dot/KIVU/backend/models"
+	"github.com/hanayo-dot/KIVU/backend/internal/models"
 )
 
 // AlertsService handles multi-tier alert triggers and regional escalation.

@@ -5,7 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/hanayo-dot/KIVU/backend/models"
+	"github.com/hanayo-dot/KIVU/backend/internal/models"
 )
 
 // ExpansionService evaluates lake zones for aquaculture expansion suitability.
