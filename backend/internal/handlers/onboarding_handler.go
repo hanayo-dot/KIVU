@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/hanayo-dot/KIVU/backend/internal/middleware"
 	"github.com/hanayo-dot/KIVU/backend/internal/models"
