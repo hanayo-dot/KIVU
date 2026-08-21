@@ -23,75 +23,44 @@
       <main class="main-content">
         <!-- Top Bar with Integrated Login -->
         <header class="top-bar">
-<<<<<<< HEAD
-          <div class="top-bar-left">
-            <select class="farm-dropdown" id="farm-selector" style="display: none;">
-              <option>Current Farm: My Farm</option>
-            </select>
-          </div>
-          
-          <div class="top-bar-right" id="auth-section">
-            <!-- Login Form (Visible when logged out) -->
-            <form id="topbar-login-form" class="topbar-login">
-              <input type="email" id="login-email" placeholder="Email" required value="farmer@lakeview.com" />
-              <input type="password" id="login-password" placeholder="Password" required value="password123" />
-              <button type="submit" class="btn-primary btn-sm">Authenticate</button>
-            </form>
-
-            <!-- User Profile (Visible when logged in) -->
-            <div id="user-profile-section" style="display: none; align-items: center; gap: 20px">
-              <span class="bell-icon" title="Notifications">
-                🔔 <span class="badge pulse-anim">3</span>
-              </span>
-              <div class="user-profile">
-                <span style="font-size: 1.2rem">👤</span>
-                <span>Farmer John</span>
-                <span class="user-status-dot"></span>
-                <button id="logout-btn" class="btn-action-outline btn-sm" style="margin-left: 10px;">Logout</button>
-              </div>
-            </div>
-          </div>
-=======
           <select class="farm-dropdown">
             <option>Current Farm: My Farm</option>
           </select>
->>>>>>> main
         </header>
 
-        <!-- Dashboard Layout Content (Blurred when logged out) -->
-        <div class="dashboard-layout dashboard-content-locked" id="dashboard-main-content">
-          <h1 class="dashboard-greeting animate-up">Good Morning, John</h1>
+        <!-- Dashboard Content -->
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div class="card">
+            <h2 style="margin-bottom: 8px">Good Morning, John</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem">
+              Conditions around your cages are currently within normal range.
+            </p>
+          </div>
 
-          <!-- Top Metrics Row -->
-          <div class="metrics-top-row">
-            <div class="metric-box animate-up delay-1">
-              <div class="metric-box-header">
-                <span>Dissolved Oxygen</span>
-                <span style="color: var(--accent-blue)">📉</span>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 15px;
+            "
+          >
+            <div class="card">
+              <div style="font-size: 0.85rem; color: var(--text-muted)">
+                Dissolved Oxygen
               </div>
-              <div>
-                <div class="metric-box-val">5.2 <span style="font-size: 0.9rem; color: var(--text-muted)">mg/L</span></div>
-                <div class="metric-box-sub">↓ 8% from yesterday</div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+                5.2 mg/L
               </div>
-            </div>
-            <div class="metric-box animate-up delay-2">
-              <div class="metric-box-header">
-                <span>Temperature</span>
-                <span style="color: var(--accent-yellow)">📈</span>
-              </div>
-              <div>
-                <div class="metric-box-val">26.4°C</div>
-                <div class="metric-box-sub green">↑ 2.1%</div>
+              <div style="font-size: 0.75rem; color: var(--accent-emerald)">
+                Stable from yesterday
               </div>
             </div>
-            <div class="metric-box animate-up delay-3">
-              <div class="metric-box-header">
-                <span>pH</span>
-                <span style="color: var(--text-muted)">➖</span>
+            <div class="card">
+              <div style="font-size: 0.85rem; color: var(--text-muted)">
+                Temperature
               </div>
-              <div>
-                <div class="metric-box-val">7.4</div>
-                <div class="metric-box-sub muted">Stable</div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+                26.4°C
               </div>
             </div>
             <div class="metric-box animate-up delay-4">
@@ -163,6 +132,7 @@
         </div>
       </main>
     </div>
+    <script src="js/api.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

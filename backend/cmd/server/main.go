@@ -15,6 +15,9 @@ func main() {
 	log.Println("==================================================")
 
 	cfg := config.LoadConfig()
+	if err := cfg.Validate(); err != nil {
+		log.Fatalf("Fatal configuration error: %v", err)
+	}
 	log.Printf("Starting KIVU server on port :%s [env: %s]", cfg.ServerPort, cfg.Environment)
 
 	db, err := database.ConnectPostgres(cfg)

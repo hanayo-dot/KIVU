@@ -22,37 +22,29 @@
       </aside>
 
       <main class="main-content">
-        <!-- Top Bar Context -->
         <header class="top-bar">
           <select class="farm-dropdown">
             <option>Current Farm: My Farm</option>
           </select>
-          <div style="display: flex; align-items: center; gap: 20px">
-            <span
-              style="font-size: 1.1rem; cursor: pointer"
-              title="Notifications"
+          <div style="display: flex; align-items: center; gap: 15px">
+            <span style="font-size: 0.9rem; color: var(--text-muted)"
               >🔔 3</span
             >
-            <div class="user-profile">
-              <span style="font-size: 1.2rem">👤</span>
-              <span>Farmer John</span>
-              <span class="user-status-dot"></span>
-            </div>
+            <span
+              style="
+                font-size: 0.9rem;
+                color: var(--text-main);
+                font-weight: 500;
+              "
+              >👤 Farmer John</span
+            >
           </div>
         </header>
 
-        <!-- Settings Content Layout -->
-        <div
-          style="
-            padding: 30px;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-          "
-        >
-          <div>
-            <h2 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 4px">
+        <!-- Centered, Comfortably Sized Settings Container -->
+        <div style="max-width: 800px; margin: 0 auto; width: 100%">
+          <div style="margin-bottom: 20px">
+            <h2 style="font-size: 1.4rem; margin-bottom: 4px">
               Account Settings
             </h2>
             <p style="font-size: 0.85rem; color: var(--text-muted)">
@@ -60,31 +52,28 @@
             </p>
           </div>
 
-          <!-- Profile Card -->
-          <div
-            class="card"
-            style="display: flex; flex-direction: column; gap: 20px"
-          >
+          <div class="card" style="position: relative">
             <div
               style="
                 display: flex;
                 align-items: center;
-                gap: 16px;
+                gap: 15px;
+                margin-bottom: 24px;
                 border-bottom: 1px solid var(--card-border);
                 padding-bottom: 20px;
               "
             >
               <div
                 style="
-                  font-size: 2.5rem;
-                  background: var(--bg-color);
-                  border: 1px solid var(--card-border);
-                  width: 60px;
-                  height: 60px;
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 50%;
+                  background: rgba(34, 197, 94, 0.2);
                   display: flex;
                   align-items: center;
                   justify-content: center;
-                  border-radius: 50%;
+                  font-size: 1.2rem;
+                  color: var(--accent-emerald);
                 "
               >
                 👤
@@ -95,11 +84,9 @@
                 </h3>
                 <span
                   style="
-                    font-size: 0.8rem;
-                    color: var(--accent-green);
-                    background: rgba(34, 197, 94, 0.1);
-                    padding: 2px 8px;
-                    border-radius: 4px;
+                    font-size: 0.75rem;
+                    color: var(--accent-emerald);
+                    font-weight: 600;
                   "
                   >Online • Farm Manager</span
                 >
@@ -108,51 +95,67 @@
 
             <form
               id="settings-form"
-              style="display: flex; flex-direction: column; gap: 16px"
+              style="display: flex; flex-direction: column; gap: 20px"
             >
-              <div class="form-group">
-                <label>Full Name</label>
+              <div
+                class="form-group"
+                style="display: flex; flex-direction: column; gap: 6px"
+              >
+                <label style="font-size: 0.85rem; color: var(--text-muted)"
+                  >Full Name</label
+                >
                 <input
                   type="text"
                   value="Farmer John"
                   style="
-                    width: 100%;
-                    padding: 12px;
-                    background-color: var(--bg-color);
+                    background: rgba(4, 15, 28, 0.6);
                     border: 1px solid var(--card-border);
+                    padding: 12px;
                     border-radius: 8px;
                     color: var(--text-main);
+                    font-size: 0.9rem;
                   "
                 />
               </div>
-              <div class="form-group">
-                <label>Email Address</label>
+
+              <div
+                class="form-group"
+                style="display: flex; flex-direction: column; gap: 6px"
+              >
+                <label style="font-size: 0.85rem; color: var(--text-muted)"
+                  >Email Address</label
+                >
                 <input
                   type="email"
                   value="farmer@lakeview.com"
                   style="
-                    width: 100%;
-                    padding: 12px;
-                    background-color: var(--bg-color);
+                    background: rgba(4, 15, 28, 0.6);
                     border: 1px solid var(--card-border);
+                    padding: 12px;
                     border-radius: 8px;
                     color: var(--text-main);
+                    font-size: 0.9rem;
                   "
                 />
               </div>
-              <div class="form-group">
-                <label>Assigned Sector</label>
+
+              <div
+                class="form-group"
+                style="display: flex; flex-direction: column; gap: 6px"
+              >
+                <label style="font-size: 0.85rem; color: var(--text-muted)"
+                  >Assigned Sector</label
+                >
                 <input
                   type="text"
                   value="Lake Victoria Sector Grid 04"
-                  readonly
                   style="
-                    width: 100%;
-                    padding: 12px;
-                    background-color: var(--bg-color);
+                    background: rgba(4, 15, 28, 0.6);
                     border: 1px solid var(--card-border);
+                    padding: 12px;
                     border-radius: 8px;
-                    color: var(--text-muted);
+                    color: var(--text-main);
+                    font-size: 0.9rem;
                   "
                 />
               </div>
@@ -163,22 +166,19 @@
                   justify-content: space-between;
                   align-items: center;
                   margin-top: 10px;
-                  border-top: 1px solid var(--card-border);
-                  padding-top: 20px;
                 "
               >
                 <button
                   type="button"
-                  id="settings-logout-btn"
                   style="
-                    background: rgba(239, 68, 68, 0.1);
+                    background: transparent;
                     border: 1px solid var(--accent-red);
                     color: var(--accent-red);
                     padding: 10px 20px;
                     border-radius: 8px;
                     font-size: 0.9rem;
-                    font-weight: 600;
                     cursor: pointer;
+                    font-weight: 600;
                   "
                 >
                   Log Out

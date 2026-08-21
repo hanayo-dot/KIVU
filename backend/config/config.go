@@ -42,7 +42,7 @@ func LoadConfig() *Config {
 	accessExp, _ := strconv.Atoi(getEnv("JWT_ACCESS_EXP_MINUTES", "30"))
 	refreshExp, _ := strconv.Atoi(getEnv("JWT_REFRESH_EXP_DAYS", "30"))
 
-	return &Config{
+	cfg := &Config{
 		ServerPort:             getEnv("SERVER_PORT", "8080"),
 		Environment:            getEnv("APP_ENV", "development"),
 		DatabaseURL:            getEnv("DATABASE_URL", defaultDBURL),
@@ -60,6 +60,17 @@ func LoadConfig() *Config {
 		CopernicusClientSecret: getEnv("COPERNICUS_CLIENT_SECRET", ""),
 		UseCopernicusLive:      useCopernicus,
 	}
+	return cfg
+}
+
+// Validate checks critical configuration rules.
+func (c *Config) Validate() error {
+	if c.Environment == "production" {
+		if c.JWTSecret == "" || c.JWTSecret == "kivu-hackathon-super-secret-jwt-key-2026" {
+			return fmt.Errorf("FATAL: Insecure JWTSecret configured in production environment")
+		}
+	}
+	return nil
 }
 
 func getEnv(key, fallback string) string {
