@@ -3,48 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics - AquaAI Command Centre</title>
+    <title>Analytics - KIVU Command Centre</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="app-container">
         <!-- Persistent Sidebar -->
         <aside class="sidebar">
-            <div class="logo">AQUA AI</div>
+            <div class="logo">KIVU</div>
             <nav>
                 <a href="index.html" class="nav-item">Dashboard</a>
                 <a href="analytics.html" class="nav-item active">Analytics</a>
                 <a href="alerts.html" class="nav-item">Alerts</a>
-                <a href="reports.html" class="nav-item">Farm Reports</a>
-                <a href="maps.html" class="nav-item">Interactive Map</a>
+                <a href="reports.html" class="nav-item">Resources</a>
+                <a href="maps.html" class="nav-item">Exports</a>
+                <a href="settings.html" class="nav-item">Settings</a>
             </nav>
         </aside>
 
         <main class="main-content">
             <!-- Top Bar Context -->
             <header class="top-bar">
-                <div class="farm-context">Farm Analytics & Historical Telemetry</div>
-                <div class="connection-status"><span class="dot online"></span>Online</div>
+                <select class="farm-dropdown">
+                    <option>Current Farm: My Farm</option>
+                </select>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <span style="font-size: 1.1rem; cursor: pointer;" title="Notifications">🔔 8</span>
+                    <div class="user-profile">
+                        <span style="font-size: 1.2rem;">👤</span>
+                        <span>Farmer John</span>
+                        <span class="user-status-dot"></span>
+                    </div>
+                </div>
             </header>
 
-            <!-- Analytics Content Grid -->
-            <div style="padding: 30px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-                <div class="card">
-                    <h3>Water Quality Trends (7-Day Distribution)</h3>
-                    <div style="height: 280px; display: flex; align-items: flex-end; justify-content: space-around; padding-top: 40px; border-bottom: 1px solid var(--card-border);">
-                        <div style="width: 30px; background: var(--accent-blue); height: 75%; border-radius: 4px 4px 0 0;" title="DO"></div>
-                        <div style="width: 30px; background: var(--accent-yellow); height: 50%; border-radius: 4px 4px 0 0;" title="Temp"></div>
-                        <div style="width: 30px; background: var(--accent-green); height: 85%; border-radius: 4px 4px 0 0;" title="pH"></div>
-                        <div style="width: 30px; background: #a855f7; height: 40%; border-radius: 4px 4px 0 0;" title="Turbidity"></div>
+            <!-- Analytics Content Layout -->
+            <div class="analytics-layout">
+                <!-- Left Column: Trends & Patterns -->
+                <div class="analytics-left-col">
+                    <div class="analytics-header-row">
+                        <h2>Farm Analytics</h2>
+                        <div class="filter-dropdowns">
+                            <button class="filter-btn-sm">Farm ▾</button>
+                            <button class="filter-btn-sm">Cage ▾</button>
+                            <button class="filter-btn-sm">Metric ▾</button>
+                            <button class="filter-btn-sm">Date Range ▾</button>
+                        </div>
                     </div>
-                    <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-muted);">Dissolved oxygen has decreased 14% over the last 7 production cycles.</p>
+
+                    <!-- Water Quality Trends Card -->
+                    <div class="card">
+                        <div class="trend-card-header">
+                            <div>
+                                <h3 style="margin-bottom: 6px;">Water Quality Trends</h3>
+                                <div class="trend-legend">
+                                    <span><i class="dot-blue"></i> Dissolved Oxygen</span>
+                                    <span><i class="dot-orange"></i> Temperature</span>
+                                    <span><i class="dot-green"></i> pH</span>
+                                    <span><i class="dot-purple"></i> Turbidity</span>
+                                </div>
+                            </div>
+                            <div class="time-tabs">
+                                <span>24H</span>
+                                <span class="active">7D</span>
+                                <span>300</span>
+                                <span>6M</span>
+                            </div>
+                        </div>
+
+                        <!-- Chart Mock Area -->
+                        <div class="chart-mock-container">
+                            <div class="chart-tooltip">
+                                DO has decreased 14% over the last 7 days
+                            </div>
+                            <!-- Simple visual SVG or flex lines can go here -->
+                        </div>
+                        <div class="chart-axis-labels">
+                            <span>Sun</span>
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
+                        </div>
+                    </div>
+
+                    <!-- Historical Patterns Card -->
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <h3>Historical Patterns</h3>
+                            <span style="color: var(--text-muted); cursor: pointer; font-size: 0.9rem;">⤢</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                            Recurring environmental patterns: Similar temperature + dissolved oxygen conditions occurred 4 times during the previous production cycle.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="card">
-                    <h3>Historical Pattern Match</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-top: 10px;">
-                        Recurring environmental pattern found: Similar temperature + dissolved oxygen conditions occurred 4 times during previous production cycles.
-                    </p>
+                <!-- Right Column: Cage Comparison & Incidents -->
+                <div class="analytics-right-col">
+                    <!-- Cage Comparison Card -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px;">Cage Comparison</h3>
+                        
+                        <div class="cage-comparison-bar">
+                            <div class="cage-bar-title">Cage 01</div>
+                            <div class="stacked-bar">
+                                <div class="bar-segment" style="width: 35%; background: var(--accent-blue);"></div>
+                                <div class="bar-segment" style="width: 25%; background: var(--accent-green);"></div>
+                                <div class="bar-segment" style="width: 20%; background: var(--accent-yellow);"></div>
+                                <div class="bar-segment" style="width: 20%; background: var(--accent-red);"></div>
+                            </div>
+                        </div>
+
+                        <div class="cage-comparison-bar">
+                            <div class="cage-bar-title">Cage 02</div>
+                            <div class="stacked-bar">
+                                <div class="bar-segment" style="width: 30%; background: var(--accent-blue);"></div>
+                                <div class="bar-segment" style="width: 20%; background: var(--accent-green);"></div>
+                                <div class="bar-segment" style="width: 30%; background: var(--accent-yellow);"></div>
+                                <div class="bar-segment" style="width: 20%; background: var(--accent-red);"></div>
+                            </div>
+                        </div>
+
+                        <div class="cage-comparison-bar">
+                            <div class="cage-bar-title">Cage 03</div>
+                            <div class="stacked-bar">
+                                <div class="bar-segment" style="width: 40%; background: var(--accent-blue);"></div>
+                                <div class="bar-segment" style="width: 20%; background: var(--accent-green);"></div>
+                                <div class="bar-segment" style="width: 15%; background: var(--accent-yellow);"></div>
+                                <div class="bar-segment" style="width: 25%; background: var(--accent-red);"></div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">
+                            <span>0</span>
+                            <span>20</span>
+                            <span>40</span>
+                            <span>60</span>
+                            <span>80</span>
+                            <span>100</span>
+                        </div>
+                    </div>
+
+                    <!-- Incidents Card -->
+                    <div class="card">
+                        <h3 style="margin-bottom: 14px;">Incidents</h3>
+                        <div class="incident-item">
+                            <span class="incident-date">June 12</span>
+                            <div class="incident-status">
+                                <span class="incident-arrow">→</span>
+                                <span>Fish stress</span>
+                            </div>
+                        </div>
+                        <div class="incident-item">
+                            <span class="incident-date">June 19</span>
+                            <div class="incident-status">
+                                <span class="incident-arrow yellow">→</span>
+                                <span>Low oxygen</span>
+                            </div>
+                        </div>
+                        <div class="incident-item">
+                            <span class="incident-date">July 04</span>
+                            <div class="incident-status">
+                                <span class="incident-arrow yellow">→</span>
+                                <span>Algal observation</span>
+                            </div>
+                        </div>
+                        <div class="incident-item" style="border-bottom: none;">
+                            <span class="incident-date">July 21</span>
+                            <div class="incident-status">
+                                <span class="incident-arrow green">→</span>
+                                <span>Normal recovery</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
