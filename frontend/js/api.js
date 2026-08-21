@@ -70,5 +70,5 @@ const API = {
       method: "POST",
       body: JSON.stringify(reading),
     });
-  }
+  },
 };
