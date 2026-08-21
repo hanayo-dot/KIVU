@@ -12,16 +12,21 @@ import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/hanayo-dot/KIVU/backend/internal/models"
+	"github.com/hanayo-dot/KIVU/backend/internal/services"
 )
 
 // LakeHandler manages Level 3 Lake Victoria spatial intelligence endpoints.
 type LakeHandler struct {
-	db *sqlx.DB
+	db          *sqlx.DB
+	groqService *services.GroqService
 }
 
 // NewLakeHandler initializes LakeHandler.
-func NewLakeHandler(db *sqlx.DB) *LakeHandler {
-	return &LakeHandler{db: db}
+func NewLakeHandler(db *sqlx.DB, groqService *services.GroqService) *LakeHandler {
+	return &LakeHandler{
+		db:          db,
+		groqService: groqService,
+	}
 }
 
 // GetLakeZones handles GET /lake/zones. Returns PostGIS ST_AsGeoJSON boundaries.
@@ -268,5 +273,55 @@ func (h *LakeHandler) GetCopernicusPointData(c *gin.Context) {
 		ObservationTimestamp: json.RawMessage(timestampJSON),
 	}
 
+	// Generate Groq AI Recommendations and Actionable Steps
+	if h.groqService != nil {
+		rec, err := h.groqService.GenerateRecommendations(&telemetry)
+		if err == nil && rec != nil {
+			telemetry.AIRecommendation = rec
+		}
+	}
+
 	c.JSON(http.StatusOK, models.NewSuccessResponse(telemetry))
+}
+
+// GetAIRecommendations handles GET/POST /lake/ai-recommendations.
+func (h *LakeHandler) GetAIRecommendations(c *gin.Context) {
+	latStr := c.Query("lat")
+	lngStr := c.Query("lng")
+	lat, _ := strconv.ParseFloat(latStr, 64)
+	lng, _ := strconv.ParseFloat(lngStr, 64)
+
+	if lat == 0 && lng == 0 {
+		lat = -0.45
+		lng = 34.20
+	}
+
+	doVal, _ := strconv.ParseFloat(c.DefaultQuery("do", "6.2"), 64)
+	tempVal, _ := strconv.ParseFloat(c.DefaultQuery("temp", "26.0"), 64)
+	phVal, _ := strconv.ParseFloat(c.DefaultQuery("ph", "7.8"), 64)
+	turbidityVal, _ := strconv.ParseFloat(c.DefaultQuery("turbidity", "12.0"), 64)
+	chlVal, _ := strconv.ParseFloat(c.DefaultQuery("chla", "14.0"), 64)
+	zoneName := c.DefaultQuery("zone", "Lake Victoria Grid Sector")
+
+	telemetry := models.CopernicusPointTelemetry{
+		Latitude:           lat,
+		Longitude:          lng,
+		ZoneName:           zoneName,
+		DissolvedOxygen:    doVal,
+		SurfaceTemperature: tempVal,
+		PH:                 phVal,
+		Turbidity:          turbidityVal,
+		ChlorophyllA:       chlVal,
+		RiskLevel:          "moderate",
+		AlgalBloomRisk:     "low",
+		Trend:              "stable",
+	}
+
+	rec, err := h.groqService.GenerateRecommendations(&telemetry)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.NewErrorResponse("Failed to generate AI recommendations: "+err.Error(), 500))
+		return
+	}
+
+	c.JSON(http.StatusOK, models.NewSuccessResponse(rec))
 }

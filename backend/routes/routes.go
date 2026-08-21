@@ -26,6 +26,7 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 	alertService := services.NewAlertsService(db, smsClient)
 	aiEngine := services.NewAIRiskEngine(db, alertService)
 	expansionService := services.NewExpansionService(db)
+	groqService := services.NewGroqService()
 
 	// Start Copernicus background sync
 	copClient := integrations.NewCopernicusClient(cfg)
@@ -37,7 +38,7 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 	onboardingH := handlers.NewOnboardingHandler(db)
 	cageH := handlers.NewCageHandler(db, aiEngine, alertService)
 	farmH := handlers.NewFarmHandler(db)
-	lakeH := handlers.NewLakeHandler(db)
+	lakeH := handlers.NewLakeHandler(db, groqService)
 	expansionH := handlers.NewExpansionHandler(expansionService)
 	aiH := handlers.NewAIHandler(db, aiEngine)
 	alertH := handlers.NewAlertHandler(alertService)
@@ -73,9 +74,10 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 		authGroup.POST("/logout", authH.Logout)
 	}
 
-	// Public Spatial Lake Map View
+	// Public Spatial Lake Map View & Groq AI Intelligence
 	r.GET("/lake/zones", lakeH.GetLakeZones)
 	r.GET("/lake/copernicus", lakeH.GetCopernicusPointData)
+	r.GET("/lake/ai-recommendations", lakeH.GetAIRecommendations)
 
 	// Protected Endpoints (Require Bearer JWT)
 	protected := r.Group("/")

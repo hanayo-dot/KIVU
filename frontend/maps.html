@@ -304,12 +304,28 @@
                   </div>
                 </div>
 
-                <!-- Environmental Intelligence Advisory -->
-                <div style="background: rgba(14, 165, 233, 0.08); border-left: 3px solid #38bdf8; padding: 12px; border-radius: 0 8px 8px 0; font-size: 0.8rem">
-                  <div style="font-weight: 600; color: #38bdf8; margin-bottom: 2px">AI Environmental Assessment</div>
-                  <p id="panel-advisory" style="color: var(--text-muted); margin: 0; line-height: 1.4">
-                    Water quality parameters are within optimal ranges for Tilapia aquaculture. Dissolved oxygen levels support healthy respiration.
+                <!-- Environmental Intelligence Advisory & Groq AI Actionable Steps -->
+                <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 14px; margin-top: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.3)">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px">
+                    <span style="font-weight: 700; font-size: 0.85rem; color: #38bdf8; display: flex; align-items: center; gap: 6px">
+                      <i data-lucide="bot" style="width: 16px; height: 16px; color: #38bdf8"></i> Groq AI Actionable Steps
+                    </span>
+                    <span id="ai-model-tag" style="font-size: 0.65rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 600">
+                      llama-3.3-70b-versatile
+                    </span>
+                  </div>
+
+                  <p id="panel-advisory" style="color: var(--text-muted, #94a3b8); font-size: 0.8rem; margin: 0 0 10px 0; line-height: 1.45">
+                    Analyzing satellite telemetry with Groq AI...
                   </p>
+
+                  <div style="font-size: 0.72rem; font-weight: 700; color: #f8fafc; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px">
+                    <i data-lucide="check-square" style="width: 13px; height: 13px; color: #22c55e"></i> Recommended Interventions:
+                  </div>
+                  <ul id="ai-action-steps" style="margin: 0; padding-left: 18px; font-size: 0.8rem; color: var(--text-main, #f8fafc); display: flex; flex-direction: column; gap: 5px">
+                    <li>Activate mechanical paddlewheel aerators in target cage sector.</li>
+                    <li>Adjust morning feed rations according to real-time oxygen trends.</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -611,19 +627,33 @@
           badge.style.background = "rgba(239, 68, 68, 0.2)";
           badge.style.color = "#ef4444";
           badge.style.borderColor = "#ef4444";
-          document.getElementById("panel-advisory").textContent = "Satellite telemetry detects reduced dissolved oxygen and elevated water surface temperatures. Avoid feeding or adding high density cages in this grid.";
         } else if (data.risk_level === "moderate") {
           badge.textContent = "MODERATE";
           badge.style.background = "rgba(234, 179, 8, 0.2)";
           badge.style.color = "#eab308";
           badge.style.borderColor = "#eab308";
-          document.getElementById("panel-advisory").textContent = "Water parameters are stable, but turbidity levels suggest active sediment mixing. Monitor dissolved oxygen levels closely.";
         } else {
           badge.textContent = "LOW RISK";
           badge.style.background = "rgba(34, 197, 94, 0.2)";
           badge.style.color = "#22c55e";
           badge.style.borderColor = "#22c55e";
-          document.getElementById("panel-advisory").textContent = "Water quality parameters are within optimal ranges for Tilapia aquaculture. Dissolved oxygen levels support healthy respiration.";
+        }
+
+        // Render Groq AI Recommendations & Actionable Steps
+        if (data.ai_recommendation) {
+          const rec = data.ai_recommendation;
+          document.getElementById("panel-advisory").textContent = rec.summary || "Water quality parameters analyzed by Groq AI.";
+          if (rec.ai_model_used) {
+            document.getElementById("ai-model-tag").textContent = rec.ai_model_used;
+          }
+          const stepsContainer = document.getElementById("ai-action-steps");
+          if (stepsContainer && rec.actionable_steps && rec.actionable_steps.length > 0) {
+            stepsContainer.innerHTML = rec.actionable_steps.map(step => `<li>${step}</li>`).join("");
+          }
+        }
+
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
         }
       }
 
