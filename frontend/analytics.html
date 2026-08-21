@@ -26,13 +26,20 @@
             <option>Current Farm: My Farm</option>
           </select>
           <div style="display: flex; align-items: center; gap: 20px">
-            <span
+            <a
+              href="alerts.html"
+              title="View Alerts"
               style="
+                text-decoration: none;
                 font-size: 0.9rem;
                 color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 4px;
                 cursor: pointer;
               "
-              >🔔
+            >
+              <span>🔔</span>
               <span
                 style="
                   background: var(--accent-red);
@@ -42,8 +49,8 @@
                   font-size: 0.7rem;
                 "
                 >8</span
-              ></span
-            >
+              >
+            </a>
             <div style="display: flex; align-items: center; gap: 8px">
               <span
                 style="
@@ -54,6 +61,7 @@
                 "
               ></span>
               <span
+                id="topbar-username"
                 style="
                   font-size: 0.9rem;
                   color: var(--text-main);
@@ -564,6 +572,15 @@
         </div>
       </main>
     </div>
+    <script>
+      // Sync username dynamically from localStorage on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedName = localStorage.getItem("farmerName");
+        if (savedName) {
+          document.getElementById("topbar-username").textContent = savedName;
+        }
+      });
+    </script>
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
   </body>
