@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - AquaAI Command Centre</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Persistent Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">AQUA AI</div>
+            <nav>
+                <a href="index.html" class="nav-item">Dashboard</a>
+                <a href="analytics.html" class="nav-item active">Analytics</a>
+                <a href="alerts.html" class="nav-item">Alerts</a>
+                <a href="reports.html" class="nav-item">Farm Reports</a>
+                <a href="maps.html" class="nav-item">Interactive Map</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Top Bar Context -->
+            <header class="top-bar">
+                <div class="farm-context">Farm Analytics & Historical Telemetry</div>
+                <div class="connection-status"><span class="dot online"></span>Online</div>
+            </header>
+
+            <!-- Analytics Content Grid -->
+            <div style="padding: 30px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div class="card">
+                    <h3>Water Quality Trends (7-Day Distribution)</h3>
+                    <div style="height: 280px; display: flex; align-items: flex-end; justify-content: space-around; padding-top: 40px; border-bottom: 1px solid var(--card-border);">
+                        <div style="width: 30px; background: var(--accent-blue); height: 75%; border-radius: 4px 4px 0 0;" title="DO"></div>
+                        <div style="width: 30px; background: var(--accent-yellow); height: 50%; border-radius: 4px 4px 0 0;" title="Temp"></div>
+                        <div style="width: 30px; background: var(--accent-green); height: 85%; border-radius: 4px 4px 0 0;" title="pH"></div>
+                        <div style="width: 30px; background: #a855f7; height: 40%; border-radius: 4px 4px 0 0;" title="Turbidity"></div>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-muted);">Dissolved oxygen has decreased 14% over the last 7 production cycles.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Historical Pattern Match</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-top: 10px;">
+                        Recurring environmental pattern found: Similar temperature + dissolved oxygen conditions occurred 4 times during previous production cycles.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
