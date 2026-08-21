@@ -1,9 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 1. Top-bar Auth Elements
+  const loginForm = document.getElementById("topbar-login-form");
+  const profileSection = document.getElementById("user-profile-section");
+  const dashboardLayout = document.getElementById("dashboard-main-content");
+  const farmSelector = document.getElementById("farm-selector");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  // 2. Auth UI State Manager (Handles blur/unblur and animations)
+  const updateAuthUI = (isLoggedIn) => {
+    if (isLoggedIn) {
+      if (loginForm) loginForm.style.display = "none";
+      if (profileSection) profileSection.style.display = "flex";
+      if (farmSelector) farmSelector.style.display = "block";
+      
+      if (dashboardLayout) {
+        dashboardLayout.classList.remove("dashboard-content-locked");
+        // Retrigger entrance animations
+        const animatedElements = document.querySelectorAll('.animate-up');
+        animatedElements.forEach(el => {
+          el.style.animation = 'none';
+          el.offsetHeight; 
+          el.style.animation = null; 
+        });
+      }
+    } else {
+      if (loginForm) loginForm.style.display = "flex";
+      if (profileSection) profileSection.style.display = "none";
+      if (farmSelector) farmSelector.style.display = "none";
+      
+      if (dashboardLayout) {
+        dashboardLayout.classList.add("dashboard-content-locked");
+      }
+    }
+  };
+
+  const isAuthenticated = localStorage.getItem("auth") === "true";
+  updateAuthUI(isAuthenticated);
+
+  // 3. Handle Top-Bar Login & Logout
   // 1. Handle Login Form Submission via API (or mock email fallback)
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      localStorage.setItem("auth", "true");
+      updateAuthUI(true);
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("auth");
+      updateAuthUI(false);
+    });
+  }
+
+  // 4. Handle Observation Form Submission (Reports Page)
       const phoneInput = document.getElementById("phone") || document.getElementById("login-email");
       const passwordInput = document.getElementById("password") || document.getElementById("login-password");
       const errorMsg = document.getElementById("error-msg") || document.getElementById("login-error");
@@ -60,14 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const toast = document.querySelector(".toast-popup") || document.getElementById("success-toast");
       if (toast) {
-        toast.style.display = "flex";
-        setTimeout(() => {
-          toast.style.display = "none";
-        }, 4000);
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 4000);
       }
     });
   }
 
+  // 5. Interactive Time Tabs (e.g., Analytics/Dashboard: 24H, 7D, 30D, etc.)
   // 5. Interactive Filter Tabs (Alerts page: All, High, Medium, Low)
   const filterTabs = document.querySelectorAll(".filter-tabs span");
   filterTabs.forEach((tab) => {
@@ -103,6 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
       item.classList.add("active");
     });
   });
+});
 
   // 9. Handle Logout from Settings Page
   const settingsLogoutBtn = document.getElementById("settings-logout-btn");

@@ -17,12 +17,11 @@
           <a href="alerts.html" class="nav-item">Alerts</a>
           <a href="reports.html" class="nav-item">Farm Reports</a>
           <a href="maps.html" class="nav-item">Interactive Map</a>
-          <a href="settings.html" class="nav-item">Settings</a>
         </nav>
       </aside>
 
       <main class="main-content">
-        <!-- Top Bar Context -->
+        <!-- Top Bar with Integrated Login -->
         <header class="top-bar">
           <select class="farm-dropdown">
             <option>Current Farm: My Farm</option>
@@ -63,48 +62,71 @@
               <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
                 26.4°C
               </div>
-              <div style="font-size: 0.75rem; color: var(--accent-emerald)">
-                + 2.1%
-              </div>
             </div>
-            <div class="card">
-              <div style="font-size: 0.85rem; color: var(--text-muted)">
-                pH Level
+            <div class="metric-box animate-up delay-4">
+              <div class="metric-box-header">
+                <span>Turbidity</span>
+                <span style="color: var(--accent-green)">🟢</span>
               </div>
-              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
-                7.4
-              </div>
-              <div style="font-size: 0.75rem; color: var(--accent-emerald)">
-                Optimal Range
-              </div>
-            </div>
-            <div class="card">
-              <div style="font-size: 0.85rem; color: var(--text-muted)">
-                Turbidity
-              </div>
-              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
-                12 NTU
-              </div>
-              <div style="font-size: 0.75rem; color: var(--accent-emerald)">
-                Normal
+              <div>
+                <div class="metric-box-val">12 <span style="font-size: 0.9rem; color: var(--text-muted)">NTU</span></div>
+                <div class="metric-box-sub green" style="color: var(--text-muted)">Normal</div>
               </div>
             </div>
           </div>
 
-          <div class="card">
-            <h3 style="margin-bottom: 10px">Water Quality Trends</h3>
-            <div
-              style="
-                height: 180px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: var(--text-muted);
-                border: 1px dashed var(--card-border);
-                border-radius: 8px;
-              "
-            >
-              [ Interactive Telemetry Chart Grid ]
+          <!-- Risk Banner -->
+          <div class="risk-banner-green animate-up delay-5">
+            <div class="risk-banner-title">
+              <span>🟢</span> Overall Farm Risk LOW
+            </div>
+            <div class="risk-banner-desc">
+              Conditions around your cages are currently within normal range.
+            </div>
+          </div>
+
+          <!-- Middle Row: Water Quality Trends & Cage Status -->
+          <div class="dashboard-grid-row">
+            <!-- Water Quality Trends Card -->
+            <div class="card animate-up delay-6">
+              <div class="trend-card-header">
+                <div>
+                  <h3 style="margin-bottom: 6px">Water Quality Trends</h3>
+                  <div class="trend-legend">
+                    <span><i class="dot-blue"></i> DO</span>
+                    <span><i class="dot-orange"></i> Temp</span>
+                    <span><i class="dot-green"></i> pH</span>
+                    <span><i class="dot-purple"></i> Turbidity</span>
+                  </div>
+                </div>
+                <div class="time-tabs">
+                  <span>24H</span>
+                  <span class="active">7D</span>
+                  <span>30D</span>
+                  <span>6M</span>
+                </div>
+              </div>
+              <div class="chart-mock-container" style="height: 160px; margin-top: 10px"></div>
+            </div>
+
+            <!-- Cage Status Card -->
+            <div class="card animate-up delay-7">
+              <h3 style="margin-bottom: 4px">Cage Status</h3>
+              <table class="cage-table">
+                <thead>
+                  <tr><th>Cage</th><th>Summary</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Cage 01</td><td>Healthy</td>
+                    <td><span class="status-pill"><span class="dot-sm-green"></span> Low</span></td>
+                  </tr>
+                  <tr>
+                    <td>Cage 02</td><td>Monitoring</td>
+                    <td><span class="status-pill"><span class="dot-sm-yellow"></span> Medium</span></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
