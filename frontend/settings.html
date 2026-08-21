@@ -31,6 +31,7 @@
               >🔔 3</span
             >
             <span
+              id="topbar-username"
               style="
                 font-size: 0.9rem;
                 color: var(--text-main);
@@ -50,6 +51,24 @@
             <p style="font-size: 0.85rem; color: var(--text-muted)">
               Manage your profile credentials and operational preferences.
             </p>
+          </div>
+
+          <!-- Success Notification Banner (Hidden by default) -->
+          <div
+            id="success-banner"
+            style="
+              display: none;
+              background: rgba(34, 197, 94, 0.2);
+              border: 1px solid var(--accent-emerald);
+              color: var(--accent-emerald);
+              padding: 12px 16px;
+              border-radius: 8px;
+              margin-bottom: 15px;
+              font-weight: 700;
+              font-size: 0.9rem;
+            "
+          >
+            ✓ Changes saved successfully!
           </div>
 
           <div class="card" style="position: relative">
@@ -79,7 +98,10 @@
                 👤
               </div>
               <div>
-                <h3 style="font-size: 1.1rem; margin-bottom: 2px">
+                <h3
+                  id="profile-card-name"
+                  style="font-size: 1.1rem; margin-bottom: 2px"
+                >
                   Farmer John
                 </h3>
                 <span
@@ -105,6 +127,7 @@
                   >Full Name</label
                 >
                 <input
+                  id="input-name"
                   type="text"
                   value="Farmer John"
                   style="
@@ -126,6 +149,7 @@
                   >Email Address</label
                 >
                 <input
+                  id="input-email"
                   type="email"
                   value="farmer@lakeview.com"
                   style="
@@ -147,6 +171,7 @@
                   >Assigned Sector</label
                 >
                 <input
+                  id="input-sector"
                   type="text"
                   value="Lake Victoria Sector Grid 04"
                   style="
@@ -198,6 +223,56 @@
         </div>
       </main>
     </div>
+
+    <!-- Script to handle saving changes -->
+    <script>
+      // Load saved values on page load if they exist
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedName = localStorage.getItem("farmerName");
+        const savedEmail = localStorage.getItem("farmerEmail");
+        const savedSector = localStorage.getItem("farmerSector");
+
+        if (savedName) {
+          document.getElementById("input-name").value = savedName;
+          document.getElementById("profile-card-name").textContent = savedName;
+          document.getElementById("topbar-username").textContent =
+            "👤 " + savedName;
+        }
+        if (savedEmail)
+          document.getElementById("input-email").value = savedEmail;
+        if (savedSector)
+          document.getElementById("input-sector").value = savedSector;
+      });
+
+      // Handle form submission
+      document
+        .getElementById("settings-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const nameVal = document.getElementById("input-name").value;
+          const emailVal = document.getElementById("input-email").value;
+          const sectorVal = document.getElementById("input-sector").value;
+
+          // Save into localStorage
+          localStorage.setItem("farmerName", nameVal);
+          localStorage.setItem("farmerEmail", emailVal);
+          localStorage.setItem("farmerSector", sectorVal);
+
+          // Update UI instantly
+          document.getElementById("profile-card-name").textContent = nameVal;
+          document.getElementById("topbar-username").textContent =
+            "👤 " + nameVal;
+
+          // Show success notification banner
+          const banner = document.getElementById("success-banner");
+          banner.style.display = "block";
+
+          setTimeout(() => {
+            banner.style.display = "none";
+          }, 3000);
+        });
+    </script>
     <script src="js/app.js"></script>
   </body>
 </html>

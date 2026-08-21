@@ -62,9 +62,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const phone = phoneInput ? phoneInput.value : "";
       const password = passwordInput ? passwordInput.value : "";
 
+      // Extract a clean display name dynamically from the input email/phone if desired
+      let derivedName = "Farmer John";
+      if (phone && phone.includes("@")) {
+        let namePart = phone.split("@")[0];
+        derivedName = namePart
+          .split(".")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      } else if (phone) {
+        derivedName = `User ${phone.slice(-4)}`;
+      }
+
       if (typeof API !== "undefined") {
         const res = await API.login(phone, password);
         if (res.success) {
+          localStorage.setItem("farmerName", res.name || derivedName);
+          localStorage.setItem("auth", "true");
           window.location.href = "index.html";
         } else {
           if (errorMsg) {
@@ -74,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       } else {
+        localStorage.setItem("farmerName", derivedName);
         localStorage.setItem("auth", "true");
         window.location.href = "index.html";
       }
@@ -86,6 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("auth");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
+      localStorage.removeItem("farmerName");
+      localStorage.removeItem("farmerEmail");
       updateAuthUI(false);
     });
   }
@@ -100,20 +117,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 6. Update Farmer Profile in Top Bar if available
-  const farmerData = localStorage.getItem("farmer");
-  if (farmerData) {
-    try {
-      const farmer = JSON.parse(farmerData);
-      const profileName = document.querySelector(
-        ".user-profile span:nth-child(2)",
-      );
-      const greeting = document.querySelector(".dashboard-greeting");
-      if (profileName && farmer.name) profileName.innerText = farmer.name;
-      if (greeting && farmer.name)
-        greeting.innerText = `Good Day, ${farmer.name}`;
-    } catch (err) {
-      console.warn("Could not parse farmer data", err);
+  // 6. Update Farmer Profile in Top Bar and Greetings dynamically using IDs
+  const savedFarmerName = localStorage.getItem("farmerName");
+  if (savedFarmerName) {
+    const topbarUserEl = document.getElementById("topbar-user-name");
+    const greetingEl = document.getElementById("dashboard-greeting-title");
+
+    if (topbarUserEl) {
+      topbarUserEl.innerText = savedFarmerName;
+    }
+    if (greetingEl) {
+      let firstName = savedFarmerName.split(" ")[0];
+      greetingEl.innerText = `Good Morning, ${firstName}`;
     }
   }
 
@@ -133,7 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 8. Interactive Filter Tabs (Alerts page: All, High, Medium, Low)
-  const filterTabs = document.querySelectorAll(".filter-tabs span");
+  const filterTabs = document.querySelectorAll(
+    ".filter-tabs span, .filter-tab",
+  );
   filterTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       filterTabs.forEach((t) => t.classList.remove("active"));
@@ -180,7 +197,8 @@ document.addEventListener("DOMContentLoaded", () => {
     settingsLogoutBtn.addEventListener("click", () => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      localStorage.removeItem("farmer");
+      localStorage.removeItem("farmerName");
+      localStorage.removeItem("farmerEmail");
       localStorage.removeItem("auth");
       window.location.href = "login.html";
     });

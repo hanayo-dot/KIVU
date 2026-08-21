@@ -3,54 +3,82 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AquaFarm - Login</title>
+    <title>KIVU - Login</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="auth-body">
     <div class="auth-card animate-up">
-      <div class="logo" style="text-align: center; margin-bottom: 25px">
-        AQUAFARM
+      <div
+        class="logo"
+        style="text-align: center; margin-bottom: 10px; letter-spacing: 3px"
+      >
+        KIVU
       </div>
-
-      <h2 style="text-align: center; margin-bottom: 20px">
+      <h2
+        style="
+          text-align: center;
+          font-size: 1.3rem;
+          margin-bottom: 25px;
+          color: var(--text-main);
+        "
+      >
         Manager Portal Login
       </h2>
 
       <form
-        action="index.html"
+        id="login-form"
         style="display: flex; flex-direction: column; gap: 20px"
       >
         <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="manager@aquafarm.com" required />
+          <label style="font-size: 0.85rem; color: var(--text-muted)"
+            >Email Address</label
+          >
+          <input
+            type="email"
+            id="login-email"
+            placeholder="manager@kivu.com"
+            required
+          />
         </div>
 
         <div class="form-group">
-          <label>Password</label>
+          <label style="font-size: 0.85rem; color: var(--text-muted)"
+            >Password</label
+          >
           <input type="password" placeholder="••••••••" required />
         </div>
 
         <button
           type="submit"
           class="btn-primary"
-          style="width: 100%; margin-top: 10px"
+          style="width: 100%; margin-top: 10px; padding: 12px; font-size: 1rem"
         >
           Sign In
         </button>
       </form>
-
-      <div style="text-align: center; margin-top: 20px">
-        <a
-          href="#"
-          style="
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            text-decoration: none;
-            font-weight: 700;
-          "
-          >Forgot Password?</a
-        >
-      </div>
     </div>
+
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("login-email").value;
+
+          // Extract a clean name from the email prefix (e.g., "sarah.jones@kivu.com" -> "Sarah Jones")
+          let namePart = email.split("@")[0];
+          let formattedName = namePart
+            .split(".")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+
+          // Save user session details
+          localStorage.setItem("farmerName", formattedName);
+          localStorage.setItem("farmerEmail", email);
+
+          // Redirect to dashboard
+          window.location.href = "index.html";
+        });
+    </script>
   </body>
 </html>
