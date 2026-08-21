@@ -39,6 +39,17 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 	aiH := handlers.NewAIHandler(db, aiEngine)
 	alertH := handlers.NewAlertHandler(alertService)
 
+	// Serve static web frontend
+	r.Static("/css", "./frontend/css")
+	r.Static("/js", "./frontend/js")
+	r.StaticFile("/", "./frontend/index.html")
+	r.StaticFile("/index.html", "./frontend/index.html")
+	r.StaticFile("/login.html", "./frontend/login.html")
+	r.StaticFile("/alerts.html", "./frontend/alerts.html")
+	r.StaticFile("/analytics.html", "./frontend/analytics.html")
+	r.StaticFile("/maps.html", "./frontend/maps.html")
+	r.StaticFile("/reports.html", "./frontend/reports.html")
+
 	// Public Endpoints
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "UP", "service": "KIVU Backend MVP with Auth"})

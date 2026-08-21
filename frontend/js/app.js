@@ -1,40 +1,64 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Handle Login Form Submission & Validation
+  // 1. Handle Login Form Submission via API (or mock email fallback)
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const emailInput = document.getElementById("login-email").value;
-      const passwordInput = document.getElementById("login-password").value;
-      const errorBox = document.getElementById("login-error");
+      const phoneInput = document.getElementById("phone") || document.getElementById("login-email");
+      const passwordInput = document.getElementById("password") || document.getElementById("login-password");
+      const errorMsg = document.getElementById("error-msg") || document.getElementById("login-error");
 
-      // Simple mock authentication check
-      if (
-        emailInput === "farmer@lakeview.com" &&
-        passwordInput === "password123"
-      ) {
-        localStorage.setItem("auth", "true");
-        localStorage.setItem("userName", "Farmer John");
-        window.location.href = "index.html";
+      if (errorMsg) errorMsg.style.display = "none";
+
+      const phone = phoneInput ? phoneInput.value : "";
+      const password = passwordInput ? passwordInput.value : "";
+
+      if (typeof API !== "undefined") {
+        const res = await API.login(phone, password);
+        if (res.success) {
+          window.location.href = "index.html";
+        } else {
+          if (errorMsg) {
+            errorMsg.innerText = res.error || "Authentication failed. Please check credentials.";
+            errorMsg.style.display = "block";
+          }
+        }
       } else {
-        if (errorBox) errorBox.style.display = "block";
+        localStorage.setItem("auth", "true");
+        window.location.href = "index.html";
       }
     });
   }
 
   // 2. Enforce Session Security Guard across protected pages
   if (!window.location.pathname.includes("login.html")) {
-    if (localStorage.getItem("auth") !== "true") {
+    const token = localStorage.getItem("access_token");
+    const isAuth = localStorage.getItem("auth");
+    if (!token && isAuth !== "true") {
       window.location.href = "login.html";
     }
   }
 
-  // 3. Handle Observation Form Submission & Toast Animation on Reports Page
+  // 3. Update Farmer Profile in Top Bar if available
+  const farmerData = localStorage.getItem("farmer");
+  if (farmerData) {
+    try {
+      const farmer = JSON.parse(farmerData);
+      const profileName = document.querySelector(".user-profile span:nth-child(2)");
+      const greeting = document.querySelector(".dashboard-greeting");
+      if (profileName && farmer.name) profileName.innerText = farmer.name;
+      if (greeting && farmer.name) greeting.innerText = `Good Day, ${farmer.name}`;
+    } catch (err) {
+      console.warn("Could not parse farmer data", err);
+    }
+  }
+
+  // 4. Handle Observation Form Submission & Toast Animation
   const obsForm = document.getElementById("observation-form");
   if (obsForm) {
     obsForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const toast = document.querySelector(".toast-popup");
+      const toast = document.querySelector(".toast-popup") || document.getElementById("success-toast");
       if (toast) {
         toast.style.display = "flex";
         setTimeout(() => {
@@ -44,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 4. Interactive Filter Tabs (e.g., Alerts page: All, High, Medium, Low)
+  // 5. Interactive Filter Tabs (Alerts page: All, High, Medium, Low)
   const filterTabs = document.querySelectorAll(".filter-tabs span");
   filterTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -53,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 5. Interactive Time Tabs (e.g., Analytics/Dashboard: 24H, 7D, 30D, etc.)
+  // 6. Interactive Time Tabs (Analytics/Dashboard: 24H, 7D, 30D, etc.)
   const timeTabs = document.querySelectorAll(".time-tabs span");
   timeTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -62,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6. Interactive Category Cards on Reports Page
+  // 7. Interactive Category Cards on Reports Page
   const catCards = document.querySelectorAll(".cat-card-option");
   catCards.forEach((card) => {
     card.addEventListener("click", () => {
@@ -71,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 7. Interactive Severity Selector on Reports Page
+  // 8. Interactive Severity Selector on Reports Page
   const severityItems = document.querySelectorAll(".severity-seg-item");
   severityItems.forEach((item) => {
     item.addEventListener("click", () => {
@@ -80,13 +104,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 8. Handle Logout from Settings Page
+  // 9. Handle Logout from Settings Page
   const settingsLogoutBtn = document.getElementById("settings-logout-btn");
   if (settingsLogoutBtn) {
     settingsLogoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("farmer");
       localStorage.removeItem("auth");
-      localStorage.removeItem("userName");
       window.location.href = "login.html";
     });
   }
 });
+
+// Category Selector Toggle for Reports Page
+function categoryToggle(element) {
+  document.querySelectorAll(".cat-btn").forEach((btn) => {
+    btn.classList.remove("active");
+    btn.style.background = "var(--bg-color)";
+    btn.style.borderColor = "var(--card-border)";
+    btn.style.color = "var(--text-muted)";
+  });
+  element.classList.add("active");
+  element.style.background = "rgba(239, 68, 68, 0.1)";
+  element.style.borderColor = "var(--accent-red)";
+  element.style.color = "var(--text-main)";
+}
