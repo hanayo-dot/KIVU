@@ -1,0 +1,9 @@
+# Ignore AI assistant workspace rules from Git tracking
+.cursorrules
+
+# Binaries and build artifacts
+backend/server
+*.exe
+*.out
+*.log
+.DS_Store
