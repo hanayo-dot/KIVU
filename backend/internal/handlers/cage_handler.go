@@ -56,6 +56,24 @@ func (h *CageHandler) SubmitReading(c *gin.Context) {
 		return
 	}
 
+	// Telemetry boundary validation
+	if req.DissolvedOxygen < 0.0 || req.DissolvedOxygen > 25.0 {
+		c.JSON(http.StatusBadRequest, models.NewErrorResponse("Dissolved oxygen out of valid range (0.0 - 25.0 mg/L)", 400))
+		return
+	}
+	if req.Temperature < 0.0 || req.Temperature > 50.0 {
+		c.JSON(http.StatusBadRequest, models.NewErrorResponse("Temperature out of valid range (0.0 - 50.0 °C)", 400))
+		return
+	}
+	if req.PH < 0.0 || req.PH > 14.0 {
+		c.JSON(http.StatusBadRequest, models.NewErrorResponse("pH out of valid range (0.0 - 14.0)", 400))
+		return
+	}
+	if req.Turbidity < 0.0 {
+		c.JSON(http.StatusBadRequest, models.NewErrorResponse("Turbidity must be a non-negative number", 400))
+		return
+	}
+
 	source := req.Source
 	if source == "" {
 		source = "manual"

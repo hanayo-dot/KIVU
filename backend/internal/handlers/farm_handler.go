@@ -117,23 +117,74 @@ func (h *FarmHandler) CompareCages(c *gin.Context) {
 		return
 	}
 
+	if len(cages) == 0 {
+		c.JSON(http.StatusOK, models.NewSuccessResponse([]models.CageComparisonItem{}))
+		return
+	}
+
+	// 1. Batch fetch latest readings per cage
+	var readings []models.Reading
+	_ = h.db.Select(&readings, `
+		SELECT DISTINCT ON (cage_id) id, cage_id, dissolved_oxygen, temperature, ph, turbidity, recorded_at, source
+		FROM readings
+		WHERE cage_id IN (SELECT id FROM cages WHERE farm_id = $1)
+		ORDER BY cage_id, recorded_at DESC`, farmID)
+
+	readingMap := make(map[uuid.UUID]*models.Reading)
+	for i := range readings {
+		r := readings[i]
+		readingMap[r.CageID] = &r
+	}
+
+	// 2. Batch fetch incident counts
+	type countMap struct {
+		CageID uuid.UUID `db:"cage_id"`
+		Count  int       `db:"count"`
+	}
+	var incCounts []countMap
+	_ = h.db.Select(&incCounts, `
+		SELECT cage_id, COUNT(*) AS count
+		FROM incidents
+		WHERE cage_id IN (SELECT id FROM cages WHERE farm_id = $1)
+		GROUP BY cage_id`, farmID)
+	incMap := make(map[uuid.UUID]int)
+	for _, ic := range incCounts {
+		incMap[ic.CageID] = ic.Count
+	}
+
+	// 3. Batch fetch alert counts
+	var alertCounts []countMap
+	_ = h.db.Select(&alertCounts, `
+		SELECT related_id::uuid AS cage_id, COUNT(*) AS count
+		FROM alerts
+		WHERE scope = 'cage' AND related_id::uuid IN (SELECT id FROM cages WHERE farm_id = $1)
+		GROUP BY related_id::uuid`, farmID)
+	alertMap := make(map[uuid.UUID]int)
+	for _, ac := range alertCounts {
+		alertMap[ac.CageID] = ac.Count
+	}
+
+	// 4. Batch fetch 7-day averages
+	type avgMap struct {
+		CageID  uuid.UUID `db:"cage_id"`
+		DOAvg   float64   `db:"do_avg"`
+		TempAvg float64   `db:"temp_avg"`
+	}
+	var avgs []avgMap
+	_ = h.db.Select(&avgs, `
+		SELECT cage_id, COALESCE(AVG(dissolved_oxygen), 0.0) AS do_avg, COALESCE(AVG(temperature), 0.0) AS temp_avg
+		FROM readings
+		WHERE cage_id IN (SELECT id FROM cages WHERE farm_id = $1) AND recorded_at >= NOW() - INTERVAL '7 days'
+		GROUP BY cage_id`, farmID)
+	doAvgMap := make(map[uuid.UUID]float64)
+	tempAvgMap := make(map[uuid.UUID]float64)
+	for _, a := range avgs {
+		doAvgMap[a.CageID] = a.DOAvg
+		tempAvgMap[a.CageID] = a.TempAvg
+	}
+
 	var items []models.CageComparisonItem
 	for _, cage := range cages {
-		var latestReading models.Reading
-		var latestPtr *models.Reading
-		errReading := h.db.Get(&latestReading, `SELECT id, cage_id, dissolved_oxygen, temperature, ph, turbidity, recorded_at, source FROM readings WHERE cage_id = $1 ORDER BY recorded_at DESC LIMIT 1`, cage.ID)
-		if errReading == nil {
-			latestPtr = &latestReading
-		}
-
-		var incCount, alertCount int
-		_ = h.db.Get(&incCount, `SELECT COUNT(*) FROM incidents WHERE cage_id = $1`, cage.ID)
-		_ = h.db.Get(&alertCount, `SELECT COUNT(*) FROM alerts WHERE scope = 'cage' AND related_id = $1`, cage.ID.String())
-
-		var doAvg, tempAvg float64
-		_ = h.db.Get(&doAvg, `SELECT COALESCE(AVG(dissolved_oxygen), 0.0) FROM readings WHERE cage_id = $1 AND recorded_at >= NOW() - INTERVAL '7 days'`, cage.ID)
-		_ = h.db.Get(&tempAvg, `SELECT COALESCE(AVG(temperature), 0.0) FROM readings WHERE cage_id = $1 AND recorded_at >= NOW() - INTERVAL '7 days'`, cage.ID)
-
 		cage.Location = models.GeoJSONPoint{
 			Type:        "Point",
 			Coordinates: []float64{cage.Longitude, cage.Latitude},
@@ -141,11 +192,11 @@ func (h *FarmHandler) CompareCages(c *gin.Context) {
 
 		items = append(items, models.CageComparisonItem{
 			Cage:          cage,
-			LatestReading: latestPtr,
-			IncidentCount: incCount,
-			AlertCount:    alertCount,
-			RecentDOAvg:   doAvg,
-			RecentTempAvg: tempAvg,
+			LatestReading: readingMap[cage.ID],
+			IncidentCount: incMap[cage.ID],
+			AlertCount:    alertMap[cage.ID],
+			RecentDOAvg:   doAvgMap[cage.ID],
+			RecentTempAvg: tempAvgMap[cage.ID],
 		})
 	}
 
