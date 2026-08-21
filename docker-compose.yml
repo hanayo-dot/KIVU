@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3-alpine
+    container_name: kivu-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-kivu}
+      POSTGRES_USER: ${DB_USER:-kivu}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-kivu_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - kivu-pgdata:/var/lib/postgresql/data
+      - ./backend/database/migrations:/docker-entrypoint-initdb.d/migrations
+      - ./backend/database/seed/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-kivu} -d ${DB_NAME:-kivu}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kivu-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SERVER_PORT: "8080"
+      ENVIRONMENT: "development"
+      DB_HOST: "postgres"
+      DB_PORT: "5432"
+      DB_USER: "${DB_USER:-kivu}"
+      DB_PASSWORD: "${DB_PASSWORD:-kivu_password}"
+      DB_NAME: "${DB_NAME:-kivu}"
+      DB_SSLMODE: "disable"
+      JWT_SECRET: "${JWT_SECRET:-kivu_hackathon_super_secret_jwt_key_2026}"
+      JWT_EXPIRATION_HOURS: "24"
+      REFRESH_TOKEN_EXPIRATION_DAYS: "30"
+      COPERNICUS_CLIENT_ID: "${COPERNICUS_CLIENT_ID:-demo_client_id}"
+      COPERNICUS_CLIENT_SECRET: "${COPERNICUS_CLIENT_SECRET:-demo_client_secret}"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  kivu-pgdata:
