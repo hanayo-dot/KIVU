@@ -1,81 +1,201 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Settings & Profile - KIVU Command Centre</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Persistent Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">KIVU</div>
-            <nav>
-                <a href="index.html" class="nav-item">Dashboard</a>
-                <a href="analytics.html" class="nav-item">Analytics</a>
-                <a href="alerts.html" class="nav-item">Alerts</a>
-                <a href="reports.html" class="nav-item">Farm Reports</a>
-                <a href="maps.html" class="nav-item">Interactive Map</a>
-                <a href="settings.html" class="nav-item active">Settings</a>
-            </nav>
-        </aside>
+      <!-- Persistent Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">KIVU</div>
+        <nav>
+          <a href="index.html" class="nav-item">Dashboard</a>
+          <a href="analytics.html" class="nav-item">Analytics</a>
+          <a href="alerts.html" class="nav-item">Alerts</a>
+          <a href="reports.html" class="nav-item">Farm Reports</a>
+          <a href="maps.html" class="nav-item">Interactive Map</a>
+          <a href="settings.html" class="nav-item active">Settings</a>
+        </nav>
+      </aside>
 
-        <main class="main-content">
-            <!-- Top Bar Context -->
-            <header class="top-bar">
-                <select class="farm-dropdown">
-                    <option>Current Farm: My Farm</option>
-                </select>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <span style="font-size: 1.1rem; cursor: pointer;" title="Notifications">🔔 3</span>
-                    <div class="user-profile">
-                        <span style="font-size: 1.2rem;">👤</span>
-                        <span>Farmer John</span>
-                        <span class="user-status-dot"></span>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Settings Content Layout -->
-            <div style="padding: 30px; max-width: 800px; display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <h2 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 4px;">Account Settings</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Manage your profile credentials and operational preferences.</p>
-                </div>
-
-                <!-- Profile Card -->
-                <div class="card" style="display: flex; flex-direction: column; gap: 20px;">
-                    <div style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--card-border); padding-bottom: 20px;">
-<div style="font-size: 2.5rem; background: var(--bg-color); border: 1px solid var(--card-border); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">👤</div>                        <div>
-                            <h3 style="font-size: 1.1rem; margin-bottom: 2px;">Farmer John</h3>
-                            <span style="font-size: 0.8rem; color: var(--accent-green); background: rgba(34,197,94,0.1); padding: 2px 8px; border-radius: 4px;">Online • Farm Manager</span>
-                        </div>
-                    </div>
-
-                    <form id="settings-form" style="display: flex; flex-direction: column; gap: 16px;">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" value="Farmer John" style="width: 100%; padding: 12px; background-color: var(--bg-color); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main);">
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" value="farmer@lakeview.com" style="width: 100%; padding: 12px; background-color: var(--bg-color); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main);">
-                        </div>
-                        <div class="form-group">
-                            <label>Assigned Sector</label>
-                            <input type="text" value="Lake Victoria Sector Grid 04" readonly style="width: 100%; padding: 12px; background-color: var(--bg-color); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-muted);">
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-                            <button type="button" id="settings-logout-btn" style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); color: var(--accent-red); padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer;">Log Out</button>
-                            <button type="submit" class="btn-primary" style="width: auto; padding: 10px 24px;">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
+      <main class="main-content">
+        <!-- Top Bar Context -->
+        <header class="top-bar">
+          <select class="farm-dropdown">
+            <option>Current Farm: My Farm</option>
+          </select>
+          <div style="display: flex; align-items: center; gap: 20px">
+            <span
+              style="font-size: 1.1rem; cursor: pointer"
+              title="Notifications"
+              >🔔 3</span
+            >
+            <div class="user-profile">
+              <span style="font-size: 1.2rem">👤</span>
+              <span>Farmer John</span>
+              <span class="user-status-dot"></span>
             </div>
-        </main>
+          </div>
+        </header>
+
+        <!-- Settings Content Layout -->
+        <div
+          style="
+            padding: 30px;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+          "
+        >
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 4px">
+              Account Settings
+            </h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted)">
+              Manage your profile credentials and operational preferences.
+            </p>
+          </div>
+
+          <!-- Profile Card -->
+          <div
+            class="card"
+            style="display: flex; flex-direction: column; gap: 20px"
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                border-bottom: 1px solid var(--card-border);
+                padding-bottom: 20px;
+              "
+            >
+              <div
+                style="
+                  font-size: 2.5rem;
+                  background: var(--bg-color);
+                  border: 1px solid var(--card-border);
+                  width: 60px;
+                  height: 60px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 50%;
+                "
+              >
+                👤
+              </div>
+              <div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 2px">
+                  Farmer John
+                </h3>
+                <span
+                  style="
+                    font-size: 0.8rem;
+                    color: var(--accent-green);
+                    background: rgba(34, 197, 94, 0.1);
+                    padding: 2px 8px;
+                    border-radius: 4px;
+                  "
+                  >Online • Farm Manager</span
+                >
+              </div>
+            </div>
+
+            <form
+              id="settings-form"
+              style="display: flex; flex-direction: column; gap: 16px"
+            >
+              <div class="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  value="Farmer John"
+                  style="
+                    width: 100%;
+                    padding: 12px;
+                    background-color: var(--bg-color);
+                    border: 1px solid var(--card-border);
+                    border-radius: 8px;
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  value="farmer@lakeview.com"
+                  style="
+                    width: 100%;
+                    padding: 12px;
+                    background-color: var(--bg-color);
+                    border: 1px solid var(--card-border);
+                    border-radius: 8px;
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="form-group">
+                <label>Assigned Sector</label>
+                <input
+                  type="text"
+                  value="Lake Victoria Sector Grid 04"
+                  readonly
+                  style="
+                    width: 100%;
+                    padding: 12px;
+                    background-color: var(--bg-color);
+                    border: 1px solid var(--card-border);
+                    border-radius: 8px;
+                    color: var(--text-muted);
+                  "
+                />
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-top: 10px;
+                  border-top: 1px solid var(--card-border);
+                  padding-top: 20px;
+                "
+              >
+                <button
+                  type="button"
+                  id="settings-logout-btn"
+                  style="
+                    background: rgba(239, 68, 68, 0.1);
+                    border: 1px solid var(--accent-red);
+                    color: var(--accent-red);
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                  "
+                >
+                  Log Out
+                </button>
+                <button
+                  type="submit"
+                  class="btn-primary"
+                  style="width: auto; padding: 10px 24px"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
     </div>
     <script src="js/app.js"></script>
-</body>
+  </body>
 </html>
