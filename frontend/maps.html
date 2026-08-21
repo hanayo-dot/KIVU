@@ -177,13 +177,13 @@
                 <i data-lucide="flame" style="width: 16px; height: 16px; color: #ef4444;"></i> Copernicus Risk Heatmap:
               </span>
               <select id="heatmap-metric-select" onchange="changeHeatmapMetric(this.value)" style="background: rgba(4, 15, 28, 0.9); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: 500">
-                <option value="overall">🛑 Overall Copernicus Risk Index</option>
-                <option value="hypoxia">🌊 Hypoxia & Low Dissolved Oxygen</option>
-                <option value="bloom">🦠 Cyanobacteria & Algal Bloom Risk</option>
-                <option value="turbidity">🌫️ Turbidity & Sedimentation</option>
+                <option value="overall">Overall Copernicus Risk Index</option>
+                <option value="hypoxia">Hypoxia & Low Dissolved Oxygen</option>
+                <option value="bloom">Cyanobacteria & Algal Bloom Risk</option>
+                <option value="turbidity">Turbidity & Sedimentation</option>
               </select>
               <button id="toggle-heat-btn" onclick="toggleHeatmap()" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease">
-                🔥 Heatmap: ON
+                Heatmap: ON
               </button>
             </div>
 
@@ -467,12 +467,12 @@
           btn.style.background = "rgba(239, 68, 68, 0.2)";
           btn.style.color = "#ef4444";
           btn.style.borderColor = "#ef4444";
-          btn.textContent = "🔥 Heatmap: ON";
+          btn.textContent = "Heatmap: ON";
         } else {
           btn.style.background = "rgba(148, 163, 184, 0.2)";
           btn.style.color = "#94a3b8";
           btn.style.borderColor = "#94a3b8";
-          btn.textContent = "🔥 Heatmap: OFF";
+          btn.textContent = "Heatmap: OFF";
         }
         renderHeatmap();
       }
@@ -512,9 +512,9 @@
 
         // Layer selector control
         L.control.layers({
-          "🌊 Vibrant Blue Water Map": voyagerBlueMap,
-          "🗺️ Standard OpenStreetMap": osmMap,
-          "🛰️ Satellite Imagery": satelliteMap
+          "Vibrant Blue Water Map": voyagerBlueMap,
+          "Standard OpenStreetMap": osmMap,
+          "Satellite Imagery": satelliteMap
         }, null, { position: "topright" }).addTo(map);
 
         // Render initial Copernicus Risk Heatmap Layer
