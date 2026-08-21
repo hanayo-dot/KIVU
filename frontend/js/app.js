@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize Lucide Icons
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons();
+  }
+
   // 1. Top-bar Auth Elements
   const loginForm = document.getElementById("topbar-login-form");
   const profileSection = document.getElementById("user-profile-section");

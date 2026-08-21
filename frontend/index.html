@@ -10,28 +10,41 @@
     <div class="app-container">
       <!-- Persistent Sidebar -->
       <aside class="sidebar">
-        <div class="logo">KIVU</div>
+        <div class="logo" style="display: flex; align-items: center; gap: 8px">
+          <i data-lucide="waves" style="width: 24px; height: 24px; color: var(--accent-blue)"></i> KIVU
+        </div>
         <nav>
-          <a href="index.html" class="nav-item active">Dashboard</a>
-          <a href="analytics.html" class="nav-item">Analytics</a>
-          <a href="alerts.html" class="nav-item">Alerts</a>
-          <a href="reports.html" class="nav-item">Farm Reports</a>
-          <a href="maps.html" class="nav-item">Interactive Map</a>
+          <a href="index.html" class="nav-item active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+          <a href="analytics.html" class="nav-item"><i data-lucide="bar-chart-3"></i> Analytics</a>
+          <a href="alerts.html" class="nav-item"><i data-lucide="bell"></i> Alerts</a>
+          <a href="reports.html" class="nav-item"><i data-lucide="file-text"></i> Farm Reports</a>
+          <a href="maps.html" class="nav-item"><i data-lucide="map"></i> Interactive Map</a>
+          <a href="settings.html" class="nav-item"><i data-lucide="settings"></i> Settings</a>
         </nav>
       </aside>
 
       <main class="main-content">
-        <!-- Top Bar with Integrated Login -->
+        <!-- Top Bar -->
         <header class="top-bar">
           <select class="farm-dropdown">
             <option>Current Farm: My Farm</option>
           </select>
+          <div style="display: flex; align-items: center; gap: 16px">
+            <span style="font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--text-muted)" title="Notifications">
+              <i data-lucide="bell" style="width: 18px; height: 18px"></i> 3
+            </span>
+            <div class="user-profile">
+              <i data-lucide="user" style="width: 18px; height: 18px; color: var(--text-muted)"></i>
+              <span>Farmer John</span>
+              <span class="user-status-dot"></span>
+            </div>
+          </div>
         </header>
 
         <!-- Dashboard Content -->
-        <div style="display: flex; flex-direction: column; gap: 20px">
+        <div style="display: flex; flex-direction: column; gap: 20px; padding: 30px">
           <div class="card">
-            <h2 style="margin-bottom: 8px">Good Morning, John</h2>
+            <h2 class="dashboard-greeting" style="margin-bottom: 8px">Good Morning, John</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem">
               Conditions around your cages are currently within normal range.
             </p>
@@ -45,50 +58,62 @@
             "
           >
             <div class="card">
-              <div style="font-size: 0.85rem; color: var(--text-muted)">
-                Dissolved Oxygen
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted)">
+                <span>Dissolved Oxygen</span>
+                <i data-lucide="trending-down" style="width: 18px; height: 18px; color: var(--accent-blue)"></i>
               </div>
               <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
                 5.2 mg/L
               </div>
-              <div style="font-size: 0.75rem; color: var(--accent-emerald)">
-                Stable from yesterday
+              <div style="font-size: 0.75rem; color: var(--accent-green)">
+                ↓ 8% from yesterday
               </div>
             </div>
+
             <div class="card">
-              <div style="font-size: 0.85rem; color: var(--text-muted)">
-                Temperature
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted)">
+                <span>Temperature</span>
+                <i data-lucide="trending-up" style="width: 18px; height: 18px; color: var(--accent-yellow)"></i>
               </div>
               <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
                 26.4°C
               </div>
-            </div>
-            <div class="metric-box animate-up delay-4">
-              <div class="metric-box-header">
-                <span>Turbidity</span>
-                <span style="color: var(--accent-green)">🟢</span>
+              <div style="font-size: 0.75rem; color: var(--accent-green)">
+                ↑ 2.1%
               </div>
-              <div>
-                <div class="metric-box-val">
-                  12
-                  <span style="font-size: 0.9rem; color: var(--text-muted)"
-                    >NTU</span
-                  >
-                </div>
-                <div
-                  class="metric-box-sub green"
-                  style="color: var(--text-muted)"
-                >
-                  Normal
-                </div>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted)">
+                <span>pH</span>
+                <i data-lucide="minus" style="width: 18px; height: 18px; color: var(--text-muted)"></i>
+              </div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+                7.4
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted)">
+                Stable
+              </div>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted)">
+                <span>Turbidity</span>
+                <i data-lucide="check-circle-2" style="width: 18px; height: 18px; color: var(--accent-green)"></i>
+              </div>
+              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+                12 NTU
+              </div>
+              <div style="font-size: 0.75rem; color: var(--accent-green)">
+                Normal
               </div>
             </div>
           </div>
 
           <!-- Risk Banner -->
-          <div class="risk-banner-green animate-up delay-5">
+          <div class="risk-banner-green">
             <div class="risk-banner-title">
-              <span>🟢</span> Overall Farm Risk LOW
+              <i data-lucide="shield-check" style="width: 20px; height: 20px; color: #4ade80"></i> Overall Farm Risk LOW
             </div>
             <div class="risk-banner-desc">
               Conditions around your cages are currently within normal range.
@@ -98,7 +123,7 @@
           <!-- Middle Row: Water Quality Trends & Cage Status -->
           <div class="dashboard-grid-row">
             <!-- Water Quality Trends Card -->
-            <div class="card animate-up delay-6">
+            <div class="card">
               <div class="trend-card-header">
                 <div>
                   <h3 style="margin-bottom: 6px">Water Quality Trends</h3>
@@ -123,7 +148,7 @@
             </div>
 
             <!-- Cage Status Card -->
-            <div class="card animate-up delay-7">
+            <div class="card">
               <h3 style="margin-bottom: 4px">Cage Status</h3>
               <table class="cage-table">
                 <thead>
@@ -152,6 +177,15 @@
                       >
                     </td>
                   </tr>
+                  <tr>
+                    <td>Cage 03</td>
+                    <td>Healthy</td>
+                    <td>
+                      <span class="status-pill"
+                        ><span class="dot-sm-green"></span> Low</span
+                      >
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -159,6 +193,7 @@
         </div>
       </main>
     </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
   </body>
