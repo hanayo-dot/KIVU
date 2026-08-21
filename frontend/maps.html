@@ -170,6 +170,38 @@
             </div>
           </div>
 
+          <!-- Copernicus Risk Heatmap Selector & Legend Toolbar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(8, 26, 46, 0.85); backdrop-filter: blur(8px); padding: 10px 16px; border-radius: 8px; border: 1px solid var(--card-border, rgba(255, 255, 255, 0.1)); flex-wrap: wrap; gap: 12px">
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+              <span style="font-size: 0.85rem; font-weight: 600; color: #f8fafc; display: flex; align-items: center; gap: 6px">
+                <i data-lucide="flame" style="width: 16px; height: 16px; color: #ef4444;"></i> Copernicus Risk Heatmap:
+              </span>
+              <select id="heatmap-metric-select" onchange="changeHeatmapMetric(this.value)" style="background: rgba(4, 15, 28, 0.9); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: 500">
+                <option value="overall">🛑 Overall Copernicus Risk Index</option>
+                <option value="hypoxia">🌊 Hypoxia & Low Dissolved Oxygen</option>
+                <option value="bloom">🦠 Cyanobacteria & Algal Bloom Risk</option>
+                <option value="turbidity">🌫️ Turbidity & Sedimentation</option>
+              </select>
+              <button id="toggle-heat-btn" onclick="toggleHeatmap()" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease">
+                🔥 Heatmap: ON
+              </button>
+            </div>
+
+            <!-- Heatmap Gradient Legend -->
+            <div style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem; color: var(--text-muted, #94a3b8)">
+              <span style="font-weight: 600">Risk Intensity:</span>
+              <div style="display: flex; align-items: center; gap: 5px">
+                <span style="display: inline-block; width: 12px; height: 12px; background: #00ff00; border-radius: 3px; box-shadow: 0 0 6px #00ff00"></span> Low Risk / Safe
+              </div>
+              <div style="display: flex; align-items: center; gap: 5px">
+                <span style="display: inline-block; width: 12px; height: 12px; background: #ffff00; border-radius: 3px; box-shadow: 0 0 6px #ffff00"></span> Moderate Warning
+              </div>
+              <div style="display: flex; align-items: center; gap: 5px">
+                <span style="display: inline-block; width: 12px; height: 12px; background: #ff0000; border-radius: 3px; box-shadow: 0 0 6px #ff0000"></span> High Risk / Anoxia
+              </div>
+            </div>
+          </div>
+
           <!-- Main Interactive Map & Telemetry Inspector Layout -->
           <div class="map-layout">
             <!-- Left: Interactive Leaflet Map Viewport -->
@@ -290,12 +322,55 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     <script src="js/api.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/app.js"></script>
     <script>
       let map;
       let activeMarker = null;
+      let heatLayer = null;
+      let heatmapEnabled = true;
+      let currentMetric = "overall";
+
+      // Copernicus Satellite Telemetry Grid Sampling Points across Lake Victoria
+      const copernicusGridPoints = [
+        // Winam Gulf & Kisumu Nearshore (High Risk Sector - Red/Orange)
+        { lat: -0.4500, lng: 34.2000, overall: 0.90, hypoxia: 0.95, bloom: 0.85, turbidity: 0.88 },
+        { lat: -0.4400, lng: 34.2200, overall: 0.88, hypoxia: 0.92, bloom: 0.80, turbidity: 0.85 },
+        { lat: -0.4600, lng: 34.1800, overall: 0.85, hypoxia: 0.88, bloom: 0.82, turbidity: 0.80 },
+        { lat: -0.4300, lng: 34.2500, overall: 0.92, hypoxia: 0.96, bloom: 0.90, turbidity: 0.92 },
+        { lat: -0.4700, lng: 34.2800, overall: 0.84, hypoxia: 0.85, bloom: 0.78, turbidity: 0.82 },
+        { lat: -0.4800, lng: 34.3200, overall: 0.78, hypoxia: 0.80, bloom: 0.72, turbidity: 0.75 },
+        { lat: -0.4100, lng: 34.3000, overall: 0.86, hypoxia: 0.90, bloom: 0.82, turbidity: 0.84 },
+
+        // Rusinga Channel (Moderate-High Risk Transition)
+        { lat: -0.3500, lng: 34.0500, overall: 0.65, hypoxia: 0.70, bloom: 0.60, turbidity: 0.62 },
+        { lat: -0.3200, lng: 34.0000, overall: 0.60, hypoxia: 0.62, bloom: 0.55, turbidity: 0.58 },
+        { lat: -0.3800, lng: 34.1000, overall: 0.72, hypoxia: 0.76, bloom: 0.68, turbidity: 0.70 },
+        { lat: -0.3000, lng: 33.9500, overall: 0.52, hypoxia: 0.55, bloom: 0.48, turbidity: 0.50 },
+
+        // Homa Bay Sector (Moderate Risk Zone)
+        { lat: -0.5200, lng: 34.4500, overall: 0.70, hypoxia: 0.72, bloom: 0.68, turbidity: 0.74 },
+        { lat: -0.5500, lng: 34.4800, overall: 0.75, hypoxia: 0.78, bloom: 0.72, turbidity: 0.76 },
+        { lat: -0.4900, lng: 34.4000, overall: 0.62, hypoxia: 0.65, bloom: 0.58, turbidity: 0.60 },
+
+        // Speke Gulf & Mwanza Sector (Moderate-High Bay Risk)
+        { lat: -2.2000, lng: 33.2000, overall: 0.72, hypoxia: 0.75, bloom: 0.70, turbidity: 0.68 },
+        { lat: -2.2500, lng: 33.2500, overall: 0.78, hypoxia: 0.82, bloom: 0.74, turbidity: 0.72 },
+        { lat: -2.1500, lng: 33.1500, overall: 0.62, hypoxia: 0.64, bloom: 0.58, turbidity: 0.60 },
+
+        // Open Central Lake Deep Water (Low Risk Zone - Blue/Green)
+        { lat: -0.8000, lng: 33.5000, overall: 0.15, hypoxia: 0.12, bloom: 0.18, turbidity: 0.10 },
+        { lat: -1.0000, lng: 33.2000, overall: 0.18, hypoxia: 0.15, bloom: 0.20, turbidity: 0.12 },
+        { lat: -1.2000, lng: 33.0000, overall: 0.20, hypoxia: 0.18, bloom: 0.22, turbidity: 0.15 },
+        { lat: -0.6000, lng: 33.8000, overall: 0.25, hypoxia: 0.22, bloom: 0.28, turbidity: 0.20 },
+        { lat: -1.5000, lng: 32.8000, overall: 0.12, hypoxia: 0.10, bloom: 0.15, turbidity: 0.08 },
+
+        // Uganda Northern Shore & Jinja Sector
+        { lat: 0.4000, lng: 33.2000, overall: 0.55, hypoxia: 0.58, bloom: 0.52, turbidity: 0.50 },
+        { lat: 0.1000, lng: 32.6000, overall: 0.48, hypoxia: 0.50, bloom: 0.45, turbidity: 0.42 }
+      ];
 
       // Lake Sector Coordinates & Pre-defined polygons
       const zonesData = [
@@ -358,6 +433,55 @@
         updateCopernicusPointData(-0.45, 34.20, "Winam Gulf (Kisumu Sector)");
       });
 
+      function renderHeatmap() {
+        if (!map) return;
+        if (heatLayer) {
+          map.removeLayer(heatLayer);
+        }
+
+        if (!heatmapEnabled) return;
+
+        const points = copernicusGridPoints.map(p => [p.lat, p.lng, p[currentMetric] || p.overall]);
+
+        if (typeof L.heatLayer === "function") {
+          heatLayer = L.heatLayer(points, {
+            radius: 48,
+            blur: 26,
+            maxZoom: 13,
+            max: 1.0,
+            gradient: {
+              0.1: "#0000ff", // Low risk deep blue
+              0.35: "#00ffff", // Cyan optimal
+              0.55: "#00ff00", // Green safe
+              0.75: "#ffff00", // Yellow warning
+              0.95: "#ff0000"  // Red critical risk
+            }
+          }).addTo(map);
+        }
+      }
+
+      function toggleHeatmap() {
+        heatmapEnabled = !heatmapEnabled;
+        const btn = document.getElementById("toggle-heat-btn");
+        if (heatmapEnabled) {
+          btn.style.background = "rgba(239, 68, 68, 0.2)";
+          btn.style.color = "#ef4444";
+          btn.style.borderColor = "#ef4444";
+          btn.textContent = "🔥 Heatmap: ON";
+        } else {
+          btn.style.background = "rgba(148, 163, 184, 0.2)";
+          btn.style.color = "#94a3b8";
+          btn.style.borderColor = "#94a3b8";
+          btn.textContent = "🔥 Heatmap: OFF";
+        }
+        renderHeatmap();
+      }
+
+      function changeHeatmapMetric(metric) {
+        currentMetric = metric;
+        renderHeatmap();
+      }
+
       function initMap() {
         // Initialize map centered at Lake Victoria (Kisumu Sector)
         map = L.map("lake-map", {
@@ -392,6 +516,9 @@
           "🗺️ Standard OpenStreetMap": osmMap,
           "🛰️ Satellite Imagery": satelliteMap
         }, null, { position: "topright" }).addTo(map);
+
+        // Render initial Copernicus Risk Heatmap Layer
+        renderHeatmap();
 
         // Add Lake Sector Polygons
         zonesData.forEach((zone) => {
