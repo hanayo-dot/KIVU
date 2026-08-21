@@ -1,9 +1,9 @@
 :root {
-  --bg-overlay: rgba(5, 15, 30, 0.1); 
-  --card-bg: rgba(6, 20, 38, 0.12);   
+  --bg-overlay: rgba(5, 15, 30, 0.1);
+  --card-bg: rgba(6, 20, 38, 0.12);
   --card-border: rgba(34, 197, 94, 0.45);
-  --text-main: #ffffff;          
-  --text-muted: #cbd5e1;         
+  --text-main: #ffffff;
+  --text-muted: #cbd5e1;
   --accent-emerald: #22c55e;
   --accent-emerald-glow: rgba(34, 197, 94, 0.4);
   --accent-red: #ef4444;
@@ -22,8 +22,8 @@ body {
   color: var(--text-main);
   height: 100vh;
   overflow: hidden;
-  font-size: 17px; 
-  font-weight: 600; 
+  font-size: 17px;
+  font-weight: 600;
 }
 
 body::before {
@@ -76,8 +76,8 @@ body::before {
   padding: 14px 16px;
   color: #ffffff; /* Fixed back to white */
   text-decoration: none;
-  font-size: 1.15rem; 
-  font-weight: 700;   
+  font-size: 1.15rem;
+  font-weight: 700;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
@@ -145,9 +145,12 @@ body::before {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.card h1, .card h2, .card h3, .card h4 {
+.card h1,
+.card h2,
+.card h3,
+.card h4 {
   color: var(--text-main);
-  font-size: 1.45rem; 
+  font-size: 1.45rem;
   font-weight: 800;
   margin-bottom: 8px;
 }
@@ -177,11 +180,13 @@ body::before {
 
 .form-group label {
   font-size: 1.05rem;
-  color: var(--text-main); 
+  color: var(--text-main);
   font-weight: 700;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   background: rgba(4, 12, 24, 0.25);
   border: 1px solid var(--card-border);
   padding: 14px;
@@ -198,8 +203,14 @@ input:focus {
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-up {
@@ -207,9 +218,15 @@ input:focus {
   animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
-.delay-3 { animation-delay: 0.3s; }
+.delay-1 {
+  animation-delay: 0.1s;
+}
+.delay-2 {
+  animation-delay: 0.2s;
+}
+.delay-3 {
+  animation-delay: 0.3s;
+}
 
 .topbar-login {
   display: flex;
@@ -235,7 +252,7 @@ input:focus {
 }
 
 /* Severity Filter Text Fix */
-.severity-filter button, 
+.severity-filter button,
 .severity-option {
   color: #ffffff !important;
   font-weight: 700 !important;
