@@ -1,6 +1,9 @@
 package routes
 
 import (
+	"os"
+	"path/filepath"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/hanayo-dot/KIVU/backend/config"
@@ -39,16 +42,26 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 	aiH := handlers.NewAIHandler(db, aiEngine)
 	alertH := handlers.NewAlertHandler(alertService)
 
+	// Detect frontend directory location (supports running from root or backend/)
+	frontendDir := "./frontend"
+	if _, err := os.Stat(frontendDir); os.IsNotExist(err) {
+		if _, err := os.Stat("../frontend"); err == nil {
+			frontendDir = "../frontend"
+		}
+	}
+
 	// Serve static web frontend
-	r.Static("/css", "./frontend/css")
-	r.Static("/js", "./frontend/js")
-	r.StaticFile("/", "./frontend/index.html")
-	r.StaticFile("/index.html", "./frontend/index.html")
-	r.StaticFile("/login.html", "./frontend/login.html")
-	r.StaticFile("/alerts.html", "./frontend/alerts.html")
-	r.StaticFile("/analytics.html", "./frontend/analytics.html")
-	r.StaticFile("/maps.html", "./frontend/maps.html")
-	r.StaticFile("/reports.html", "./frontend/reports.html")
+	if _, err := os.Stat(frontendDir); err == nil {
+		r.Static("/css", filepath.Join(frontendDir, "css"))
+		r.Static("/js", filepath.Join(frontendDir, "js"))
+		r.StaticFile("/", filepath.Join(frontendDir, "index.html"))
+		r.StaticFile("/index.html", filepath.Join(frontendDir, "index.html"))
+		r.StaticFile("/login.html", filepath.Join(frontendDir, "login.html"))
+		r.StaticFile("/alerts.html", filepath.Join(frontendDir, "alerts.html"))
+		r.StaticFile("/analytics.html", filepath.Join(frontendDir, "analytics.html"))
+		r.StaticFile("/maps.html", filepath.Join(frontendDir, "maps.html"))
+		r.StaticFile("/reports.html", filepath.Join(frontendDir, "reports.html"))
+	}
 
 	// Public Endpoints
 	r.GET("/health", func(c *gin.Context) {
