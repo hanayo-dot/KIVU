@@ -1,130 +1,143 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alerts - KIVU Command Centre</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Persistent Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">KIVU</div>
-            <nav>
-                <a href="index.html" class="nav-item">Dashboard</a>
-                <a href="analytics.html" class="nav-item">Analytics</a>
-                <a href="alerts.html" class="nav-item active">Alerts</a>
-                <a href="reports.html" class="nav-item">Resources</a>
-                <a href="maps.html" class="nav-item">Exports</a>
-                <a href="settings.html" class="nav-item">Settings</a>
-            </nav>
-        </aside>
+      <!-- Persistent Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">KIVU</div>
+        <nav>
+          <a href="index.html" class="nav-item">Dashboard</a>
+          <a href="analytics.html" class="nav-item">Analytics</a>
+          <a href="alerts.html" class="nav-item">Alerts</a>
+          <a href="reports.html" class="nav-item">Farm Reports</a>
+          <a href="maps.html" class="nav-item">Interactive Map</a>
+        </nav>
+      </aside>
 
-        <main class="main-content">
-            <!-- Top Bar Context -->
-            <header class="top-bar">
-                <select class="farm-dropdown">
-                    <option>Current Farm: My Farm</option>
-                </select>
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <span style="font-size: 1.1rem; cursor: pointer;" title="Notifications">🔔 8</span>
-                    <div class="user-profile">
-                        <span style="font-size: 1.2rem;">👤</span>
-                        <span>Farmer John</span>
-                        <span class="user-status-dot"></span>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Alerts Content Layout -->
-            <div class="alerts-layout">
-                <!-- Left Panel: Alerts List & Filters -->
-                <div class="alerts-main-panel">
-                    <div class="alerts-title-row">
-                        <h2>Alerts & Warnings</h2>
-                    </div>
-                    <div class="filter-tabs">
-                        <span class="active">All</span> | 
-                        <span class="high">High</span> | 
-                        <span class="medium">Medium</span> | 
-                        <span class="low">Low</span>
-                    </div>
-
-                    <!-- Alert Item 1 -->
-                    <div class="alert-card-item high-border">
-                        <div class="alert-card-header">
-                            <span class="alert-tag high">HIGH RISK</span>
-                            <span style="color: var(--text-muted); cursor: pointer;">⋮</span>
-                        </div>
-                        <div class="alert-title">Cage 02</div>
-                        <div class="alert-snippet">Current condition: 3.7 mg/L DO over 1 last 7 days</div>
-                    </div>
-
-                    <!-- Alert Item 2 -->
-                    <div class="alert-card-item medium-border">
-                        <div class="alert-card-header">
-                            <span class="alert-tag medium">MEDIUM</span>
-                            <span style="color: var(--text-muted); cursor: pointer;">⋮</span>
-                        </div>
-                        <div class="alert-title">Cage 01</div>
-                        <div class="alert-snippet">Current condition: 3.7 mg/L DO- pH</div>
-                    </div>
-
-                    <!-- Alert Item 3 -->
-                    <div class="alert-card-item low-border">
-                        <div class="alert-card-header">
-                            <span class="alert-tag low">INFORMATION</span>
-                            <span style="color: var(--text-muted); cursor: pointer;">⋮</span>
-                        </div>
-                        <div class="alert-title">Regional stable</div>
-                        <div class="alert-snippet">Current conditions differ significantly from axaa...</div>
-                    </div>
-                </div>
-
-                <!-- Right Panel: Alert Details Sidebar -->
-                <div class="alert-details-card">
-                    <div>
-                        <div class="details-header">
-                            <h3>Alert Details</h3>
-                            <span class="close-btn">✕</span>
-                        </div>
-
-                        <div class="detail-row">
-                            <span class="detail-label">Risk</span>
-                            <span class="detail-value high-risk">HIGH</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Affected area</span>
-                            <span class="detail-value">Cage 02</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Detected</span>
-                            <span class="detail-value">14:32</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Current condition</span>
-                            <span class="detail-value">3.7 mg/L DO</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Historical range</span>
-                            <span class="detail-value">4.8–6.0 mg/L</span>
-                        </div>
-
-                        <div class="insight-box">
-                            <h4>KIVU Intelligence insight:</h4>
-                            <p>Current conditions differ significantly from historical patterns.</p>
-                        </div>
-                    </div>
-
-                    <div class="details-actions">
-                        <a href="maps.html" class="btn-action">View on Map</a>
-                        <a href="analytics.html" class="btn-action btn-action-outline">View Analytics</a>
-                    </div>
-                </div>
+      <main class="main-content">
+        <!-- Top Bar Context -->
+        <header class="top-bar">
+          <select class="farm-dropdown">
+            <option>Current Farm: My Farm</option>
+          </select>
+          <div style="display: flex; align-items: center; gap: 20px">
+            <span
+              style="font-size: 1.1rem; cursor: pointer"
+              title="Notifications"
+              >🔔 8</span
+            >
+            <div class="user-profile">
+              <span style="font-size: 1.2rem">👤</span>
+              <span>Farmer John</span>
+              <span class="user-status-dot"></span>
             </div>
-        </main>
+          </div>
+        </header>
+
+        <!-- Alerts Content Layout -->
+        <div class="alerts-layout">
+          <!-- Left Panel: Alerts List & Filters -->
+          <div class="alerts-main-panel">
+            <div class="alerts-title-row">
+              <h2>Alerts & Warnings</h2>
+            </div>
+            <div class="filter-tabs">
+              <span class="active">All</span> | <span class="high">High</span> |
+              <span class="medium">Medium</span> |
+              <span class="low">Low</span>
+            </div>
+
+            <!-- Alert Item 1 -->
+            <div class="alert-card-item high-border">
+              <div class="alert-card-header">
+                <span class="alert-tag high">HIGH RISK</span>
+                <span style="color: var(--text-muted); cursor: pointer">⋮</span>
+              </div>
+              <div class="alert-title">Cage 02</div>
+              <div class="alert-snippet">
+                Current condition: 3.7 mg/L DO over 1 last 7 days
+              </div>
+            </div>
+
+            <!-- Alert Item 2 -->
+            <div class="alert-card-item medium-border">
+              <div class="alert-card-header">
+                <span class="alert-tag medium">MEDIUM</span>
+                <span style="color: var(--text-muted); cursor: pointer">⋮</span>
+              </div>
+              <div class="alert-title">Cage 01</div>
+              <div class="alert-snippet">
+                Current condition: 3.7 mg/L DO- pH
+              </div>
+            </div>
+
+            <!-- Alert Item 3 -->
+            <div class="alert-card-item low-border">
+              <div class="alert-card-header">
+                <span class="alert-tag low">INFORMATION</span>
+                <span style="color: var(--text-muted); cursor: pointer">⋮</span>
+              </div>
+              <div class="alert-title">Regional stable</div>
+              <div class="alert-snippet">
+                Current conditions differ significantly from axaa...
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel: Alert Details Sidebar -->
+          <div class="alert-details-card">
+            <div>
+              <div class="details-header">
+                <h3>Alert Details</h3>
+                <span class="close-btn">✕</span>
+              </div>
+
+              <div class="detail-row">
+                <span class="detail-label">Risk</span>
+                <span class="detail-value high-risk">HIGH</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Affected area</span>
+                <span class="detail-value">Cage 02</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Detected</span>
+                <span class="detail-value">14:32</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Current condition</span>
+                <span class="detail-value">3.7 mg/L DO</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Historical range</span>
+                <span class="detail-value">4.8–6.0 mg/L</span>
+              </div>
+
+              <div class="insight-box">
+                <h4>KIVU Intelligence insight:</h4>
+                <p>
+                  Current conditions differ significantly from historical
+                  patterns.
+                </p>
+              </div>
+            </div>
+
+            <div class="details-actions">
+              <a href="maps.html" class="btn-action">View on Map</a>
+              <a href="analytics.html" class="btn-action btn-action-outline"
+                >View Analytics</a
+              >
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
     <script src="js/app.js"></script>
-</body>
+  </body>
 </html>
