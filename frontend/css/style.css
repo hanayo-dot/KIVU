@@ -833,3 +833,101 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   margin-top: 10px;
 }
+/* =========================================
+   UI Animations & Interactions
+   ========================================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseAlert {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Staggered entrance classes */
+.animate-up {
+  opacity: 0; /* Hidden by default before animation starts */
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+.delay-7 { animation-delay: 0.7s; }
+
+/* Micro-interactions */
+.pulse-anim {
+  animation: pulseAlert 2s infinite;
+}
+
+/* =========================================
+   Top Bar Login & Lock State
+   ========================================= */
+
+.topbar-login {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.topbar-login input {
+  padding: 8px 12px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  width: 180px;
+  transition: border-color 0.2s;
+}
+
+.topbar-login input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+/* Bell Badge Positioning */
+.bell-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.bell-icon .badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--accent-red);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+
+/* Lock state for dashboard when logged out */
+.dashboard-content-locked {
+  filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+  transition: all 0.4s ease-in-out;
+}

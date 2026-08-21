@@ -12,62 +12,63 @@
       <aside class="sidebar">
         <div class="logo">KIVU</div>
         <nav>
-          <a href="index.html" class="nav-item">Dashboard</a>
+          <a href="index.html" class="nav-item active">Dashboard</a>
           <a href="analytics.html" class="nav-item">Analytics</a>
           <a href="alerts.html" class="nav-item">Alerts</a>
           <a href="reports.html" class="nav-item">Farm Reports</a>
           <a href="maps.html" class="nav-item">Interactive Map</a>
-          <a href="settings.html" class="nav-item">Settings</a>
         </nav>
       </aside>
 
       <main class="main-content">
-        <!-- Top Bar Context -->
+        <!-- Top Bar with Integrated Login -->
         <header class="top-bar">
-          <select class="farm-dropdown">
-            <option>Current Farm: My Farm</option>
-          </select>
-          <div style="display: flex; align-items: center; gap: 20px">
-            <span
-              style="font-size: 1.1rem; cursor: pointer"
-              title="Notifications"
-              >🔔 3</span
-            >
-            <div class="user-profile">
-              <span style="font-size: 1.2rem">👤</span>
-              <span>Farmer John</span>
-              <span class="user-status-dot"></span>
+          <div class="top-bar-left">
+            <select class="farm-dropdown" id="farm-selector" style="display: none;">
+              <option>Current Farm: My Farm</option>
+            </select>
+          </div>
+          
+          <div class="top-bar-right" id="auth-section">
+            <!-- Login Form (Visible when logged out) -->
+            <form id="topbar-login-form" class="topbar-login">
+              <input type="email" id="login-email" placeholder="Email" required value="farmer@lakeview.com" />
+              <input type="password" id="login-password" placeholder="Password" required value="password123" />
+              <button type="submit" class="btn-primary btn-sm">Authenticate</button>
+            </form>
+
+            <!-- User Profile (Visible when logged in) -->
+            <div id="user-profile-section" style="display: none; align-items: center; gap: 20px">
+              <span class="bell-icon" title="Notifications">
+                🔔 <span class="badge pulse-anim">3</span>
+              </span>
+              <div class="user-profile">
+                <span style="font-size: 1.2rem">👤</span>
+                <span>Farmer John</span>
+                <span class="user-status-dot"></span>
+                <button id="logout-btn" class="btn-action-outline btn-sm" style="margin-left: 10px;">Logout</button>
+              </div>
             </div>
           </div>
         </header>
 
-        <!-- Dashboard Layout Content -->
-        <div class="dashboard-layout">
-          <h1 class="dashboard-greeting">Good Morning, John</h1>
+        <!-- Dashboard Layout Content (Blurred when logged out) -->
+        <div class="dashboard-layout dashboard-content-locked" id="dashboard-main-content">
+          <h1 class="dashboard-greeting animate-up">Good Morning, John</h1>
 
           <!-- Top Metrics Row -->
           <div class="metrics-top-row">
-            <div class="metric-box">
+            <div class="metric-box animate-up delay-1">
               <div class="metric-box-header">
                 <span>Dissolved Oxygen</span>
                 <span style="color: var(--accent-blue)">📉</span>
               </div>
               <div>
-                <div class="metric-box-val">
-                  5.2
-                  <span
-                    style="
-                      font-size: 0.9rem;
-                      font-weight: normal;
-                      color: var(--text-muted);
-                    "
-                    >mg/L</span
-                  >
-                </div>
+                <div class="metric-box-val">5.2 <span style="font-size: 0.9rem; color: var(--text-muted)">mg/L</span></div>
                 <div class="metric-box-sub">↓ 8% from yesterday</div>
               </div>
             </div>
-            <div class="metric-box">
+            <div class="metric-box animate-up delay-2">
               <div class="metric-box-header">
                 <span>Temperature</span>
                 <span style="color: var(--accent-yellow)">📈</span>
@@ -77,7 +78,7 @@
                 <div class="metric-box-sub green">↑ 2.1%</div>
               </div>
             </div>
-            <div class="metric-box">
+            <div class="metric-box animate-up delay-3">
               <div class="metric-box-header">
                 <span>pH</span>
                 <span style="color: var(--text-muted)">➖</span>
@@ -87,35 +88,20 @@
                 <div class="metric-box-sub muted">Stable</div>
               </div>
             </div>
-            <div class="metric-box">
+            <div class="metric-box animate-up delay-4">
               <div class="metric-box-header">
                 <span>Turbidity</span>
                 <span style="color: var(--accent-green)">🟢</span>
               </div>
               <div>
-                <div class="metric-box-val">
-                  12
-                  <span
-                    style="
-                      font-size: 0.9rem;
-                      font-weight: normal;
-                      color: var(--text-muted);
-                    "
-                    >NTU</span
-                  >
-                </div>
-                <div
-                  class="metric-box-sub green"
-                  style="color: var(--text-muted)"
-                >
-                  Normal
-                </div>
+                <div class="metric-box-val">12 <span style="font-size: 0.9rem; color: var(--text-muted)">NTU</span></div>
+                <div class="metric-box-sub green" style="color: var(--text-muted)">Normal</div>
               </div>
             </div>
           </div>
 
           <!-- Risk Banner -->
-          <div class="risk-banner-green">
+          <div class="risk-banner-green animate-up delay-5">
             <div class="risk-banner-title">
               <span>🟢</span> Overall Farm Risk LOW
             </div>
@@ -127,7 +113,7 @@
           <!-- Middle Row: Water Quality Trends & Cage Status -->
           <div class="dashboard-grid-row">
             <!-- Water Quality Trends Card -->
-            <div class="card">
+            <div class="card animate-up delay-6">
               <div class="trend-card-header">
                 <div>
                   <h3 style="margin-bottom: 6px">Water Quality Trends</h3>
@@ -145,83 +131,27 @@
                   <span>6M</span>
                 </div>
               </div>
-              <div
-                class="chart-mock-container"
-                style="height: 160px; margin-top: 10px"
-              ></div>
-              <div class="chart-axis-labels">
-                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span
-                ><span>Thu</span><span>Fri</span><span>Sat</span
-                ><span>Sun</span>
-              </div>
+              <div class="chart-mock-container" style="height: 160px; margin-top: 10px"></div>
             </div>
 
             <!-- Cage Status Card -->
-            <div class="card">
+            <div class="card animate-up delay-7">
               <h3 style="margin-bottom: 4px">Cage Status</h3>
               <table class="cage-table">
                 <thead>
-                  <tr>
-                    <th>Cage</th>
-                    <th>Summary</th>
-                    <th>Status</th>
-                  </tr>
+                  <tr><th>Cage</th><th>Summary</th><th>Status</th></tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Cage 01</td>
-                    <td>Healthy</td>
-                    <td>
-                      <span class="status-pill"
-                        ><span class="dot-sm-green"></span> Low</span
-                      >
-                    </td>
+                    <td>Cage 01</td><td>Healthy</td>
+                    <td><span class="status-pill"><span class="dot-sm-green"></span> Low</span></td>
                   </tr>
                   <tr>
-                    <td>Cage 02</td>
-                    <td>Monitoring</td>
-                    <td>
-                      <span class="status-pill"
-                        ><span class="dot-sm-yellow"></span> Medium</span
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cage 03</td>
-                    <td>Healthy</td>
-                    <td>
-                      <span class="status-pill"
-                        ><span class="dot-sm-green"></span> Low</span
-                      >
-                    </td>
+                    <td>Cage 02</td><td>Monitoring</td>
+                    <td><span class="status-pill"><span class="dot-sm-yellow"></span> Medium</span></td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-
-          <!-- Bottom Row: Map & Recent Observations -->
-          <div class="dashboard-grid-row">
-            <div class="card">
-              <h3 style="margin-bottom: 4px">Lake Victoria Map</h3>
-              <div class="map-card-preview">
-                <div class="map-badge-pin">
-                  <span>📍</span> Lake Farm
-                  <span class="dot-sm-green" style="margin-left: 4px"></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <h3 style="margin-bottom: 4px">Recent Observations</h3>
-              <div class="observations-list">
-                <div class="observation-item">
-                  Fish stress reported, <span>Cage 02</span> · 2 hours ago
-                </div>
-                <div class="observation-item" style="border-bottom: none">
-                  Fish stress reported, <span>Cage 02</span> · 2 hours ago
-                </div>
-              </div>
             </div>
           </div>
         </div>
