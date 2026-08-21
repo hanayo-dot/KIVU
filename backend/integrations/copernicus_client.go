@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/hanayo-dot/KIVU/backend/config"
+	"github.com/hanayo-dot/KIVU/backend/internal/models"
 )
 
 // CopernicusClient manages CDSE OAuth2 token fetching and Statistical API requests.
@@ -18,6 +19,7 @@ type CopernicusClient struct {
 	expiresAt   time.Time
 	mu          sync.Mutex
 	TokenURL    string
+	StatAPIURL  string
 }
 
 // NewCopernicusClient initializes a new CopernicusClient.
@@ -70,4 +72,48 @@ func (c *CopernicusClient) GetAccessToken() (string, error) {
 	c.expiresAt = time.Now().Add(time.Duration(body.ExpiresIn) * time.Second)
 
 	return c.accessToken, nil
+}
+
+// FetchZoneStatistics queries Sentinel Hub Statistical API for a given polygon
+func (c *CopernicusClient) FetchZoneStatistics(polygon models.GeoJSONPolygon) (*models.ZoneMetrics, error) {
+	token, err := c.GetAccessToken()
+	if err != nil {
+		return nil, err
+	}
+
+	statURL := c.StatAPIURL
+	if statURL == "" {
+		statURL = "https://sh.dataspace.copernicus.eu/api/v1/statistics"
+	}
+
+	// This is a simplified mock mapping for the hackathon MVP.
+	// In production, this would build a full Sentinel Hub evaluationscript JSON payload.
+	req, err := http.NewRequest(http.MethodPost, statURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("statistical api returned non-200 status: %d", resp.StatusCode)
+	}
+
+	// Mocking response extraction for MVP
+	return &models.ZoneMetrics{
+		Period:             "P10D",
+		AvgDissolvedOxygen: 6.8, // Example satellite proxy value
+		AvgTemperature:     24.5,
+		AvgTurbidity:       12.3,
+		RiskLevel:          "low",
+		Trend:              "stable",
+		ComputedAt:         time.Now(),
+	}, nil
 }
