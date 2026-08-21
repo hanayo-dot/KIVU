@@ -16,69 +16,80 @@
           <a href="analytics.html" class="nav-item">Analytics</a>
           <a href="alerts.html" class="nav-item">Alerts</a>
           <a href="reports.html" class="nav-item">Farm Reports</a>
-          <a href="maps.html" class="nav-item">Interactive Map</a>
+          <a href="maps.html" class="nav-item active">Interactive Map</a>
           <a href="settings.html" class="nav-item">Settings</a>
         </nav>
       </aside>
+
       <main class="main-content">
-        <!-- Top Bar Context -->
         <header class="top-bar">
           <select class="farm-dropdown">
             <option>Current Farm: My Farm</option>
           </select>
         </header>
-        <!-- Map Layout -->
+
         <div
           style="
-            padding: 30px;
-            display: grid;
-            grid-template-columns: 320px 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
-            height: calc(100vh - 70px);
+            height: calc(100vh - 120px);
           "
         >
-          <div class="card">
-            <h3>Map Layers</h3>
-            <div
-              style="
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                margin-top: 15px;
-                font-size: 0.9rem;
-                color: var(--text-muted);
-              "
-            >
-              <label
-                ><input type="checkbox" checked /> Water Quality
-                Telemetry</label
-              >
-              <label
-                ><input type="checkbox" checked /> Regional Risk Zones</label
-              >
-              <label
-                ><input type="checkbox" checked /> Active Cage Arrays</label
-              >
-              <label><input type="checkbox" /> Historical Incidents</label>
-            </div>
-          </div>
           <div
             style="
-              background: #070d1d;
-              border-radius: 12px;
-              border: 1px solid var(--card-border);
               display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <div>
+              <h2 style="font-size: 1.4rem; margin-bottom: 4px">
+                Lake Victoria Sector Grid Map
+              </h2>
+              <p style="font-size: 0.85rem; color: var(--text-muted)">
+                Real-time telemetry and physical spatial layout of aquaculture
+                cages.
+              </p>
+            </div>
+          </div>
+
+          <!-- Map Viewport Card -->
+          <div
+            class="card"
+            style="
+              flex: 1;
+              display: flex;
+              flex-direction: column;
               align-items: center;
               justify-content: center;
+              border: 1px dashed var(--card-border);
               position: relative;
               overflow: hidden;
             "
           >
-            <div style="text-align: center; color: var(--text-muted)">
-              <div style="font-size: 2rem; margin-bottom: 8px">📍</div>
-              <strong>Lake Victoria Aquaculture Sector Grid</strong>
-              <p style="font-size: 0.8rem; margin-top: 4px">
-                Live sensor clusters operational
+            <div
+              style="
+                text-align: center;
+                color: var(--text-muted);
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+              "
+            >
+              <span style="font-size: 3rem">🗺️</span>
+              <div
+                style="
+                  font-size: 1.1rem;
+                  font-weight: 600;
+                  color: var(--text-main);
+                "
+              >
+                Spatial Telemetry Grid Loaded
+              </div>
+              <p style="font-size: 0.85rem; max-width: 400px">
+                Interactive map layer tracking Cage 01 (Optimal), Cage 02
+                (Oxygen Warning), and Cage 03 (Healthy).
               </p>
             </div>
           </div>
