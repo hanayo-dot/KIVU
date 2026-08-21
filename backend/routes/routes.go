@@ -75,6 +75,7 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 
 	// Public Spatial Lake Map View
 	r.GET("/lake/zones", lakeH.GetLakeZones)
+	r.GET("/lake/copernicus", lakeH.GetCopernicusPointData)
 
 	// Protected Endpoints (Require Bearer JWT)
 	protected := r.Group("/")

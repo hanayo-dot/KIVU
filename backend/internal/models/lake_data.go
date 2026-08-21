@@ -28,3 +28,23 @@ type LakeZoneDetail struct {
 	IncidentCount   int             `json:"incident_count"`
 	ActiveCageCount int             `json:"active_cage_count"`
 }
+
+// CopernicusPointTelemetry holds satellite-derived environmental telemetry for a specific lat/lng coordinate on Lake Victoria.
+type CopernicusPointTelemetry struct {
+	Latitude             float64   `json:"latitude"`
+	Longitude            float64   `json:"longitude"`
+	ZoneName             string    `json:"zone_name"`
+	RegionLabel          string    `json:"region_label"`
+	DissolvedOxygen      float64   `json:"dissolved_oxygen"`      // mg/L
+	SurfaceTemperature   float64   `json:"surface_temperature"`   // °C
+	PH                   float64   `json:"ph"`
+	Turbidity            float64   `json:"turbidity"`             // NTU
+	ChlorophyllA         float64   `json:"chlorophyll_a"`         // µg/L
+	SecchiDepth          float64   `json:"secchi_depth"`          // meters
+	AlgalBloomRisk       string    `json:"algal_bloom_risk"`      // 'low' | 'moderate' | 'high'
+	RiskLevel            string    `json:"risk_level"`            // 'low' | 'moderate' | 'high'
+	Trend                string    `json:"trend"`                 // 'improving' | 'stable' | 'deteriorating'
+	SuitabilityScore     int       `json:"suitability_score"`     // 0-100 score for cage placement
+	SatelliteSource      string    `json:"satellite_source"`      // e.g. "Sentinel-3 OLCI / SLSTR Instrument (CDSE)"
+	ObservationTimestamp json.RawMessage `json:"observation_timestamp"`
+}
