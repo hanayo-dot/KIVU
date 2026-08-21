@@ -103,17 +103,15 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("farmerName");
       localStorage.removeItem("farmerEmail");
-      updateAuthUI(false);
+      window.location.href = "login.html";
     });
   }
 
   // 5. Enforce Session Security Guard across protected pages
   if (!window.location.pathname.includes("login.html")) {
-    const token = localStorage.getItem("access_token");
     const isAuth = localStorage.getItem("auth");
-    if (!token && isAuth !== "true") {
-      // Optional: uncomment below if you want strict redirection to login
-      // window.location.href = "login.html";
+    if (isAuth !== "true") {
+      window.location.href = "login.html";
     }
   }
 
