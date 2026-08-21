@@ -1,77 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farm Reports - AquaAI Command Centre</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resources - KIVU Command Centre</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Persistent Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">AQUA AI</div>
-            <nav>
-                <a href="index.html" class="nav-item">Dashboard</a>
-                <a href="analytics.html" class="nav-item">Analytics</a>
-                <a href="alerts.html" class="nav-item">Alerts</a>
-                <a href="reports.html" class="nav-item active">Farm Reports</a>
-                <a href="maps.html" class="nav-item">Interactive Map</a>
-            </nav>
-        </aside>
+      <!-- Persistent Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">KIVU</div>
+        <nav>
+          <a href="index.html" class="nav-item">Dashboard</a>
+          <a href="analytics.html" class="nav-item">Analytics</a>
+          <a href="alerts.html" class="nav-item">Alerts</a>
+          <a href="reports.html" class="nav-item">Farm Reports</a>
+          <a href="maps.html" class="nav-item">Interactive Map</a>
+        </nav>
+      </aside>
 
-        <main class="main-content">
-            <!-- Top Bar Context -->
-            <header class="top-bar">
-                <div class="farm-context">Observation Logging Engine</div>
-                <div class="connection-status"><span class="dot online"></span>Online</div>
-            </header>
-
-            <!-- Report Submission Form -->
-            <div class="form-container" style="padding: 30px; max-width: 900px; margin: 0 auto; width: 100%;">
-                <h2 style="margin-bottom: 20px; font-size: 1.4rem;">Report an Observation</h2>
-                <form id="observation-form">
-                    <div class="form-group">
-                        <label>Select Cage / Pond</label>
-                        <select id="cage-select">
-                            <option>Cage 01 - Tilapia Sector</option>
-                            <option selected>Cage 02 - Fingerling Growout</option>
-                            <option>Cage 03 - Main Production</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Observation Category</label>
-                        <div class="category-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px;">
-                            <div class="cat-btn" onclick="categoryToggle(this)" style="background: var(--bg-color); border: 1px solid var(--card-border); padding: 15px; border-radius: 10px; color: var(--text-muted); text-align: center; cursor: pointer;">Fish Stress</div>
-                            <div class="cat-btn active" onclick="categoryToggle(this)" style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); padding: 15px; border-radius: 10px; color: var(--text-main); text-align: center; cursor: pointer;">Fish Mortality</div>
-                            <div class="cat-btn" onclick="categoryToggle(this)" style="background: var(--bg-color); border: 1px solid var(--card-border); padding: 15px; border-radius: 10px; color: var(--text-muted); text-align: center; cursor: pointer;">Water Discoloration</div>
-                            <div class="cat-btn" onclick="categoryToggle(this)" style="background: var(--bg-color); border: 1px solid var(--card-border); padding: 15px; border-radius: 10px; color: var(--text-muted); text-align: center; cursor: pointer;">Algal Growth</div>
-                            <div class="cat-btn" onclick="categoryToggle(this)" style="background: var(--bg-color); border: 1px solid var(--card-border); padding: 15px; border-radius: 10px; color: var(--text-muted); text-align: center; cursor: pointer;">Unusual Condition</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Severity Level</label>
-                        <input type="range" min="1" max="3" value="2" id="severity-range">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Field Notes & Observations</label>
-                        <textarea rows="4" placeholder="Describe fish behavior, weather changes, or physical conditions..." id="obs-desc" style="width: 100%; padding: 12px; background-color: var(--bg-color); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); font-size: 1rem;"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-primary">Submit Observation to AI Layer</button>
-                </form>
+      <main class="main-content">
+        <!-- Top Bar Context -->
+        <header class="top-bar">
+          <select class="farm-dropdown">
+            <option>Current Farm: My Farm</option>
+          </select>
+          <div style="display: flex; align-items: center; gap: 20px">
+            <span
+              style="font-size: 1.1rem; cursor: pointer"
+              title="Notifications"
+              >🔔 3</span
+            >
+            <div class="user-profile">
+              <span style="font-size: 1.2rem">👤</span>
+              <span>Farmer John</span>
+              <span class="user-status-dot"></span>
             </div>
-        </main>
-    </div>
+          </div>
+        </header>
 
-    <!-- Feedback Toast -->
-    <div class="toast" id="success-toast" style="position: fixed; bottom: 30px; right: 30px; background: #065f46; color: #fff; padding: 16px 24px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; transform: translateY(100px); opacity: 0; transition: 0.3s ease;">
-        ✓ Observation recorded. Your report has been added to KIVU's intelligence layer.
-    </div>
+        <!-- Reports Content Layout -->
+        <div class="reports-layout">
+          <div class="reports-card-container">
+            <div>
+              <h2 class="reports-title">Report an Observation</h2>
+            </div>
 
+            <form id="observation-form">
+              <div class="form-group" style="margin-bottom: 16px">
+                <label>Select Cage</label>
+                <select class="select-box-custom">
+                  <option>▾ Cage 02</option>
+                  <option>▾ Cage 01</option>
+                  <option>▾ Cage 03</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 16px">
+                <label>Category</label>
+                <div class="category-cards-grid">
+                  <div class="cat-card-option">
+                    <span class="cat-icon">🐟</span>
+                    <span>Fish Stress</span>
+                  </div>
+                  <div class="cat-card-option active-red">
+                    <span class="cat-icon">💀</span>
+                    <span>Fish Mortality</span>
+                  </div>
+                  <div class="cat-card-option">
+                    <span class="cat-icon">💧</span>
+                    <span>Water Discoloration</span>
+                  </div>
+                  <div class="cat-card-option">
+                    <span class="cat-icon">🟢</span>
+                    <span>Algal Growth</span>
+                  </div>
+                  <div class="cat-card-option">
+                    <span class="cat-icon">🌊</span>
+                    <span>Unusual Water Condition</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 16px">
+                <label>Severity</label>
+                <div class="severity-segmented">
+                  <div class="severity-seg-item active">Low</div>
+                  <div class="severity-seg-item">Medium</div>
+                  <div class="severity-seg-item">High</div>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 16px">
+                <label>Photo</label>
+                <div class="photo-dropzone">+ Upload Photo (Optional)</div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 16px">
+                <label>Location</label>
+                <div class="location-tag-input">
+                  <span style="color: var(--accent-red)">📍</span> Cage 02
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px">
+                <label>Description</label>
+                <textarea
+                  rows="3"
+                  placeholder="Describe what you observed..."
+                  style="
+                    width: 100%;
+                    padding: 12px;
+                    background-color: var(--bg-color);
+                    border: 1px solid var(--card-border);
+                    border-radius: 8px;
+                    color: var(--text-main);
+                    font-size: 0.95rem;
+                  "
+                ></textarea>
+              </div>
+
+              <!-- Success Toast Notification Snippet inside form flow -->
+              <div class="toast-popup">
+                <span style="font-size: 1.1rem">✓</span>
+                <div>
+                  <strong style="display: block; margin-bottom: 2px"
+                    >Observation recorded.</strong
+                  >
+                  <span style="color: #d1fae5; font-size: 0.8rem"
+                    >Your report has been added to KIVU's intelligence
+                    layer.</span
+                  >
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn-primary"
+                style="margin-top: 20px"
+              >
+                Submit Observation
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
     <script src="js/app.js"></script>
-</body>
+  </body>
 </html>
