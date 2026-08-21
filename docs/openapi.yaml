@@ -1,0 +1,204 @@
+openapi: 3.0.3
+info:
+  title: KIVU Aquaculture & Environmental Intelligence API
+  description: |
+    REST API for KIVU — a lake-wide aquaculture, water-quality, and spatial intelligence platform
+    for Lake Victoria fish cage farmers.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local Development Server
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new farmer account
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - phone_number
+                - password
+              properties:
+                name:
+                  type: string
+                  example: "John Doe"
+                phone_number:
+                  type: string
+                  example: "+254700000000"
+                password:
+                  type: string
+                  example: "demo1234"
+                location:
+                  type: string
+                  example: "Kisumu Bay"
+      responses:
+        '201':
+          description: Farmer registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseEnvelope'
+
+  /auth/login:
+    post:
+      summary: Authenticate farmer with phone & password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - phone_number
+                - password
+              properties:
+                phone_number:
+                  type: string
+                  example: "+254700000000"
+                password:
+                  type: string
+                  example: "demo1234"
+      responses:
+        '200':
+          description: Authentication successful, returns JWT access & refresh tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseEnvelope'
+
+  /cages/{id}/readings:
+    get:
+      summary: Get telemetry readings history for a fish cage
+      tags:
+        - Cage Monitoring (Level 1)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Telemetry history returned successfully
+    post:
+      summary: Submit new cage telemetry reading (triggers AI Risk Engine)
+      tags:
+        - Cage Monitoring (Level 1)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WaterReadingInput'
+      responses:
+        '201':
+          description: Reading recorded and analyzed
+
+  /farms/{id}/dashboard:
+    get:
+      summary: Get aggregated farm metrics, cages status & alerts
+      tags:
+        - Farm Management (Level 2)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Farm dashboard metrics returned
+
+  /lake/zones:
+    get:
+      summary: Get Lake Victoria zones with spatial GeoJSON polygons & environmental metrics
+      tags:
+        - Regional Lake Intelligence (Level 3)
+      responses:
+        '200':
+          description: Spatial lake zones list
+
+  /expansion/suitability:
+    get:
+      summary: Evaluate spatial zones for cage expansion suitability signals
+      tags:
+        - Expansion Signals (Level 4)
+      responses:
+        '200':
+          description: Expansion signals list
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AuthResponseEnvelope:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+            refresh_token:
+              type: string
+            farmer:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+                phone_number:
+                  type: string
+        error:
+          type: string
+          nullable: true
+
+    WaterReadingInput:
+      type: object
+      required:
+        - dissolved_oxygen
+        - temperature
+        - ph
+      properties:
+        dissolved_oxygen:
+          type: number
+          example: 6.5
+        temperature:
+          type: number
+          example: 25.4
+        ph:
+          type: number
+          example: 7.2
+        ammonia:
+          type: number
+          example: 0.01
