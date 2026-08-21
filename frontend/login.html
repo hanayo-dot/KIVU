@@ -22,15 +22,43 @@
       }
       .landing-left {
         flex: 1;
+        position: relative;
         background:
-          linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)),
+          linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.7)),
           url("images/dashcage.jpg") no-repeat center center/cover;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         padding: 60px;
         color: #ffffff;
+        overflow: hidden;
       }
+
+      /* Hidden SVG Filter used to warp the background pixels */
+      .hidden-filter {
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+
+      /* Water turbulence warping effect */
+      .water-warp {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: inherit;
+        filter: url(#waterRipple);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .landing-left > *:not(.water-warp) {
+        position: relative;
+        z-index: 2;
+      }
+
       .landing-right {
         width: 480px;
         background: var(--card-bg, #1e293b);
@@ -40,6 +68,7 @@
         padding: 50px;
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
       }
+
       @media (max-width: 900px) {
         .landing-left {
           display: none;
@@ -51,9 +80,37 @@
     </style>
   </head>
   <body class="landing-body">
+    <!-- SVG Filter Definition for Water Warping -->
+    <svg class="hidden-filter">
+      <filter id="waterRipple">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.01 0.04"
+          numOctaves="2"
+          result="noise"
+        >
+          <animate
+            attributeName="baseFrequency"
+            dur="12s"
+            values="0.01 0.04; 0.015 0.06; 0.01 0.04"
+            repeatCount="indefinite"
+          />
+        </feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="4"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </svg>
+
     <div class="landing-split">
-      <!-- Left Panel: Aquaculture Background & Mission -->
+      <!-- Left Panel: Aquaculture Background & Mission with Water Warp -->
       <div class="landing-left">
+        <div class="water-warp"></div>
+
         <div
           style="
             font-size: 2rem;
@@ -353,7 +410,6 @@
         signinView.style.display = "block";
       });
 
-      // Redirects to analytics.html upon successful Sign In
       document
         .getElementById("login-form")
         .addEventListener("submit", function (e) {
@@ -373,7 +429,6 @@
           window.location.href = "analytics.html";
         });
 
-      // Redirects to analytics.html upon successful Registration
       document
         .getElementById("register-form")
         .addEventListener("submit", function (e) {
