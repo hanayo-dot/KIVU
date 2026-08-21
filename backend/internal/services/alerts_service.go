@@ -5,18 +5,20 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/jmoiron/sqlx"
+	"github.com/hanayo-dot/KIVU/backend/integrations"
 	"github.com/hanayo-dot/KIVU/backend/internal/models"
+	"github.com/jmoiron/sqlx"
 )
 
 // AlertsService handles multi-tier alert triggers and regional escalation.
 type AlertsService struct {
-	db *sqlx.DB
+	db        *sqlx.DB
+	smsClient integrations.SMSClient
 }
 
 // NewAlertsService initializes AlertsService.
-func NewAlertsService(db *sqlx.DB) *AlertsService {
-	return &AlertsService{db: db}
+func NewAlertsService(db *sqlx.DB, smsClient integrations.SMSClient) *AlertsService {
+	return &AlertsService{db: db, smsClient: smsClient}
 }
 
 // TriggerCageAlert creates a cage-scoped alert and checks for farm/region escalation.
@@ -28,7 +30,22 @@ func (s *AlertsService) TriggerCageAlert(cageID uuid.UUID, severity, message str
 		return fmt.Errorf("failed to insert cage alert: %w", err)
 	}
 
-	// 2. Check Farm-level escalation
+	// 2. Fetch Farmer's phone number to send SMS notification
+	var farmerPhone string
+	err = s.db.Get(&farmerPhone, `
+		SELECT f.phone_number 
+		FROM farmers f
+		JOIN farms fm ON f.id = fm.farmer_id
+		JOIN cages c ON fm.id = c.farm_id
+		WHERE c.id = $1`, cageID)
+	
+	if err == nil && farmerPhone != "" {
+		if s.smsClient != nil {
+			go s.smsClient.SendSMS(farmerPhone, fmt.Sprintf("KIVU ALERT: %s", message))
+		}
+	}
+
+	// 3. Check Farm-level escalation
 	var farmID uuid.UUID
 	err = s.db.Get(&farmID, `SELECT farm_id FROM cages WHERE id = $1`, cageID)
 	if err == nil {
@@ -45,6 +62,10 @@ func (s *AlertsService) TriggerCageAlert(cageID uuid.UUID, severity, message str
 			farmMsg := fmt.Sprintf("FARM ESCALATION: Multiple cages (%d) in farm %s reporting environmental anomalies", activeCageAlertCount, farmID)
 			_, _ = s.db.Exec(`INSERT INTO alerts (scope, related_id, severity, message) VALUES ('farm', $1, 'warning', $2)`, farmID.String(), farmMsg)
 			log.Printf("[Alert Escalation] Escalated to Farm %s scope", farmID)
+
+			if farmerPhone != "" && s.smsClient != nil {
+				go s.smsClient.SendSMS(farmerPhone, fmt.Sprintf("KIVU FARM ESCALATION: %s", farmMsg))
+			}
 		}
 	}
 

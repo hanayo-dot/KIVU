@@ -19,7 +19,8 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 
 	// Initialize Services
 	authService := services.NewAuthService(cfg, db)
-	alertService := services.NewAlertsService(db)
+	smsClient := integrations.NewSMSClient(cfg)
+	alertService := services.NewAlertsService(db, smsClient)
 	aiEngine := services.NewAIRiskEngine(db, alertService)
 	expansionService := services.NewExpansionService(db)
 
