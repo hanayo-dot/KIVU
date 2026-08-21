@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 5. Enforce Session Security Guard across protected pages
+  // Enforce Session Security Guard across protected pages
   if (!window.location.pathname.includes("login.html")) {
     const isAuth = localStorage.getItem("auth");
     if (isAuth !== "true") {

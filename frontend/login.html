@@ -34,7 +34,7 @@
       }
       .landing-right {
         width: 480px;
-        background: var(--bg-card, #1e293b);
+        background: var(--card-bg, #1e293b);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -103,7 +103,7 @@
                 margin-bottom: 30px;
               "
             >
-              Sign in to access your farm command center.
+              Sign in to access your farm analytics command center.
             </p>
 
             <form
@@ -124,8 +124,8 @@
                   style="
                     padding: 12px;
                     border-radius: 6px;
-                    border: 1px solid var(--border-color, #334155);
-                    background: var(--bg-main, #0f172a);
+                    border: 1px solid var(--card-border, #334155);
+                    background: rgba(4, 12, 24, 0.25);
                     color: #fff;
                   "
                   required
@@ -146,8 +146,8 @@
                   style="
                     padding: 12px;
                     border-radius: 6px;
-                    border: 1px solid var(--border-color, #334155);
-                    background: var(--bg-main, #0f172a);
+                    border: 1px solid var(--card-border, #334155);
+                    background: rgba(4, 12, 24, 0.25);
                     color: #fff;
                   "
                   required
@@ -161,11 +161,6 @@
                   width: 100%;
                   padding: 12px;
                   font-size: 1rem;
-                  background: #22c55e;
-                  border: none;
-                  border-radius: 6px;
-                  color: #fff;
-                  font-weight: 600;
                   cursor: pointer;
                   margin-top: 10px;
                 "
@@ -227,12 +222,12 @@
                 <input
                   type="text"
                   id="reg-name"
-                  placeholder="Stacy Smith"
+                  placeholder="Stacy"
                   style="
                     padding: 12px;
                     border-radius: 6px;
-                    border: 1px solid var(--border-color, #334155);
-                    background: var(--bg-main, #0f172a);
+                    border: 1px solid var(--card-border, #334155);
+                    background: rgba(4, 12, 24, 0.25);
                     color: #fff;
                   "
                   required
@@ -253,8 +248,8 @@
                   style="
                     padding: 12px;
                     border-radius: 6px;
-                    border: 1px solid var(--border-color, #334155);
-                    background: var(--bg-main, #0f172a);
+                    border: 1px solid var(--card-border, #334155);
+                    background: rgba(4, 12, 24, 0.25);
                     color: #fff;
                   "
                   required
@@ -275,8 +270,8 @@
                   style="
                     padding: 12px;
                     border-radius: 6px;
-                    border: 1px solid var(--border-color, #334155);
-                    background: var(--bg-main, #0f172a);
+                    border: 1px solid var(--card-border, #334155);
+                    background: rgba(4, 12, 24, 0.25);
                     color: #fff;
                   "
                   required
@@ -297,8 +292,8 @@
                   style="
                     padding: 12px;
                     border-radius: 6px;
-                    border: 1px solid var(--border-color, #334155);
-                    background: var(--bg-main, #0f172a);
+                    border: 1px solid var(--card-border, #334155);
+                    background: rgba(4, 12, 24, 0.25);
                     color: #fff;
                   "
                   required
@@ -312,11 +307,6 @@
                   width: 100%;
                   padding: 12px;
                   font-size: 1rem;
-                  background: #22c55e;
-                  border: none;
-                  border-radius: 6px;
-                  color: #fff;
-                  font-weight: 600;
                   cursor: pointer;
                   margin-top: 10px;
                 "
@@ -352,7 +342,6 @@
       const showRegister = document.getElementById("show-register");
       const showSignin = document.getElementById("show-signin");
 
-      // Toggle between Sign In and Register view seamlessly
       showRegister.addEventListener("click", (e) => {
         e.preventDefault();
         signinView.style.display = "none";
@@ -365,7 +354,7 @@
         signinView.style.display = "block";
       });
 
-      // Handle Login submission
+      // Redirects to analytics.html upon successful Sign In
       document
         .getElementById("login-form")
         .addEventListener("submit", function (e) {
@@ -382,10 +371,10 @@
           localStorage.setItem("farmerEmail", email);
           localStorage.setItem("auth", "true");
 
-          window.location.href = "index.html";
+          window.location.href = "analytics.html";
         });
 
-      // Handle Registration submission
+      // Redirects to analytics.html upon successful Registration
       document
         .getElementById("register-form")
         .addEventListener("submit", function (e) {
@@ -397,7 +386,7 @@
           localStorage.setItem("farmerEmail", email);
           localStorage.setItem("auth", "true");
 
-          window.location.href = "index.html";
+          window.location.href = "analytics.html";
         });
     </script>
   </body>

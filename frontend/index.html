@@ -3,23 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - KIVU Command Centre</title>
+    <title>Analytics - KIVU Command Centre</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="app-container">
       <!-- Persistent Sidebar -->
       <aside class="sidebar">
-        <div class="logo" style="display: flex; align-items: center; gap: 8px">
-          <i
-            data-lucide="waves"
-            style="width: 24px; height: 24px; color: var(--accent-blue)"
-          ></i>
-          KIVU
-        </div>
+        <div class="logo">KIVU</div>
         <nav>
-          <a href="index.html" class="nav-item">Dashboard</a>
-          <a href="analytics.html" class="nav-item active">Analytics</a>
+          <a href="index.html" class="nav-item active">Analytics</a>
           <a href="alerts.html" class="nav-item">Alerts</a>
           <a href="reports.html" class="nav-item">Farm Reports</a>
           <a href="maps.html" class="nav-item">Interactive Map</a>
@@ -27,59 +20,62 @@
         </nav>
       </aside>
 
+      <!-- Main Content Area -->
       <main class="main-content">
         <!-- Top Bar -->
         <header class="top-bar">
-          <select class="farm-dropdown">
+          <select id="farm-selector" class="farm-dropdown">
             <option>Current Farm: My Farm</option>
           </select>
-          <div style="display: flex; align-items: center; gap: 16px">
-            <span
-              style="
-                font-size: 0.9rem;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                color: var(--text-muted);
-              "
-              title="Notifications"
+          <div style="display: flex; align-items: center; gap: 20px">
+            <div class="bell-icon" title="Notifications">
+              <i
+                data-lucide="bell"
+                style="width: 20px; height: 20px; color: var(--text-main)"
+              ></i>
+              <span class="badge">3</span>
+            </div>
+            <div
+              id="user-profile-section"
+              style="display: flex; align-items: center; gap: 10px"
             >
-              <i data-lucide="bell" style="width: 18px; height: 18px"></i> 3
-            </span>
-            <div class="user-profile">
               <i
                 data-lucide="user"
-                style="width: 18px; height: 18px; color: var(--text-muted)"
+                style="width: 20px; height: 20px; color: var(--text-muted)"
               ></i>
-              <span id="topbar-user-name">Farmer John</span>
-              <span class="user-status-dot"></span>
+              <span id="topbar-user-name">Stacy</span>
+              <button
+                id="logout-btn"
+                style="
+                  background: transparent;
+                  border: none;
+                  color: var(--accent-red);
+                  cursor: pointer;
+                  font-size: 0.9rem;
+                  font-weight: 700;
+                  margin-left: 10px;
+                "
+              >
+                Logout
+              </button>
             </div>
           </div>
         </header>
 
-        <!-- Dashboard Content -->
+        <!-- Dashboard Body Content -->
         <div
-          style="
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 30px;
-          "
+          class="animate-up delay-1"
+          style="display: flex; flex-direction: column; gap: 20px"
         >
+          <!-- Greeting Card -->
           <div class="card">
-            <h2
-              id="dashboard-greeting-title"
-              class="dashboard-greeting"
-              style="margin-bottom: 8px"
-            >
-              Good Morning, John
-            </h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem">
+            <h2 id="dashboard-greeting-title">Good Morning, Stacy</h2>
+            <p style="color: var(--text-muted); font-size: 1.05rem">
               Conditions around your cages are currently within normal range.
             </p>
           </div>
 
+          <!-- Metric Cards Grid -->
           <div
             style="
               display: grid;
@@ -93,20 +89,24 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
-                  font-size: 0.85rem;
                   color: var(--text-muted);
+                  font-size: 0.95rem;
                 "
               >
                 <span>Dissolved Oxygen</span>
                 <i
                   data-lucide="trending-down"
-                  style="width: 18px; height: 18px; color: var(--accent-blue)"
+                  style="
+                    width: 18px;
+                    height: 18px;
+                    color: var(--accent-emerald);
+                  "
                 ></i>
               </div>
-              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+              <div style="font-size: 1.8rem; font-weight: 800; margin: 8px 0">
                 5.2 mg/L
               </div>
-              <div style="font-size: 0.75rem; color: var(--accent-green)">
+              <div style="font-size: 0.85rem; color: var(--accent-emerald)">
                 ↓ 8% from yesterday
               </div>
             </div>
@@ -117,20 +117,20 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
-                  font-size: 0.85rem;
                   color: var(--text-muted);
+                  font-size: 0.95rem;
                 "
               >
                 <span>Temperature</span>
                 <i
                   data-lucide="trending-up"
-                  style="width: 18px; height: 18px; color: var(--accent-yellow)"
+                  style="width: 18px; height: 18px; color: #f59e0b"
                 ></i>
               </div>
-              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+              <div style="font-size: 1.8rem; font-weight: 800; margin: 8px 0">
                 26.4°C
               </div>
-              <div style="font-size: 0.75rem; color: var(--accent-green)">
+              <div style="font-size: 0.85rem; color: var(--accent-emerald)">
                 ↑ 2.1%
               </div>
             </div>
@@ -141,8 +141,8 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
-                  font-size: 0.85rem;
                   color: var(--text-muted);
+                  font-size: 0.95rem;
                 "
               >
                 <span>pH</span>
@@ -151,10 +151,10 @@
                   style="width: 18px; height: 18px; color: var(--text-muted)"
                 ></i>
               </div>
-              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+              <div style="font-size: 1.8rem; font-weight: 800; margin: 8px 0">
                 7.4
               </div>
-              <div style="font-size: 0.75rem; color: var(--text-muted)">
+              <div style="font-size: 0.85rem; color: var(--text-muted)">
                 Stable
               </div>
             </div>
@@ -165,112 +165,144 @@
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
-                  font-size: 0.85rem;
                   color: var(--text-muted);
+                  font-size: 0.95rem;
                 "
               >
                 <span>Turbidity</span>
                 <i
                   data-lucide="check-circle-2"
-                  style="width: 18px; height: 18px; color: var(--accent-green)"
+                  style="
+                    width: 18px;
+                    height: 18px;
+                    color: var(--accent-emerald);
+                  "
                 ></i>
               </div>
-              <div style="font-size: 1.5rem; font-weight: 700; margin: 5px 0">
+              <div style="font-size: 1.8rem; font-weight: 800; margin: 8px 0">
                 12 NTU
               </div>
-              <div style="font-size: 0.75rem; color: var(--accent-green)">
+              <div style="font-size: 0.85rem; color: var(--accent-emerald)">
                 Normal
               </div>
             </div>
           </div>
 
           <!-- Risk Banner -->
-          <div class="risk-banner-green">
-            <div class="risk-banner-title">
+          <div
+            class="card"
+            style="
+              border-color: var(--accent-emerald);
+              background: rgba(34, 197, 94, 0.08);
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 800;
+                color: var(--accent-emerald);
+                font-size: 1.1rem;
+                margin-bottom: 4px;
+              "
+            >
               <i
                 data-lucide="shield-check"
-                style="width: 20px; height: 20px; color: #4ade80"
+                style="width: 20px; height: 20px"
               ></i>
               Overall Farm Risk LOW
             </div>
-            <div class="risk-banner-desc">
+            <div style="color: var(--text-muted); font-size: 1rem">
               Conditions around your cages are currently within normal range.
             </div>
           </div>
 
-          <!-- Middle Row: Water Quality Trends & Cage Status -->
-          <div class="dashboard-grid-row">
-            <!-- Water Quality Trends Card -->
+          <!-- Bottom Grid: Trends & Cage Status -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px">
             <div class="card">
-              <div class="trend-card-header">
-                <div>
-                  <h3 style="margin-bottom: 6px">Water Quality Trends</h3>
-                  <div class="trend-legend">
-                    <span><i class="dot-blue"></i> DO</span>
-                    <span><i class="dot-orange"></i> Temp</span>
-                    <span><i class="dot-green"></i> pH</span>
-                    <span><i class="dot-purple"></i> Turbidity</span>
-                  </div>
-                </div>
-                <div class="time-tabs">
-                  <span>24H</span>
-                  <span class="active">7D</span>
-                  <span>30D</span>
-                  <span>6M</span>
-                </div>
-              </div>
+              <h3>Water Quality Trends</h3>
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 0.95rem;
+                  margin-bottom: 15px;
+                "
+              >
+                DO • Temp • pH • Turbidity
+              </p>
               <div
-                class="chart-mock-container"
-                style="height: 160px; margin-top: 10px"
-              ></div>
+                style="
+                  height: 140px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: var(--text-muted);
+                  border: 1px dashed var(--card-border);
+                  border-radius: 8px;
+                "
+              >
+                Chart Visualization Area
+              </div>
             </div>
 
-            <!-- Cage Status Card -->
             <div class="card">
-              <h3 style="margin-bottom: 4px">Cage Status</h3>
-              <table class="cage-table">
-                <thead>
-                  <tr>
-                    <th>Cage</th>
-                    <th>Summary</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Cage 01</td>
-                    <td>Healthy</td>
-                    <td>
-                      <span class="status-pill"
-                        ><span class="dot-sm-green"></span> Low</span
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cage 02</td>
-                    <td>Monitoring</td>
-                    <td>
-                      <span class="status-pill"
-                        ><span class="dot-sm-yellow"></span> Medium</span
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cage 03</td>
-                    <td>Healthy</td>
-                    <td>
-                      <span class="status-pill"
-                        ><span class="dot-sm-green"></span> Low</span
-                      >
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <h3>Cage Status</h3>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+                  margin-top: 15px;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid var(--card-border);
+                  "
+                >
+                  <span>Cage 01</span>
+                  <span style="color: var(--accent-emerald); font-weight: 700"
+                    >Healthy (Low)</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid var(--card-border);
+                  "
+                >
+                  <span>Cage 02</span>
+                  <span style="color: #f59e0b; font-weight: 700"
+                    >Monitoring (Medium)</span
+                  >
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <span>Cage 03</span>
+                  <span style="color: var(--accent-emerald); font-weight: 700"
+                    >Healthy (Low)</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </main>
     </div>
+
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
