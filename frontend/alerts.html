@@ -1,303 +1,175 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alerts - KIVU Command Centre</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div class="app-container">
-      <!-- Persistent Sidebar -->
-      <aside class="sidebar">
-        <div class="logo">KIVU</div>
-        <nav>
-          <a href="index.html" class="nav-item">Dashboard</a>
-          <a href="analytics.html" class="nav-item">Analytics</a>
-          <a href="alerts.html" class="nav-item active">Alerts</a>
-          <a href="reports.html" class="nav-item">Farm Reports</a>
-          <a href="maps.html" class="nav-item">Interactive Map</a>
-          <a href="settings.html" class="nav-item">Settings</a>
-        </nav>
-      </aside>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIVU - Alerts & Warnings</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Filter Tab Specific Styles */
+    .filter-tabs {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .filter-tab {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .filter-tab.active {
+      color: var(--accent-emerald);
+      background: rgba(34, 197, 94, 0.15);
+    }
+    .alert-card {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body>
 
-      <main class="main-content">
-        <header class="top-bar">
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">KIVU</div>
+      <nav>
+        <a href="index.html" class="nav-item">Dashboard</a>
+        <a href="analytics.html" class="nav-item">Analytics</a>
+        <a href="alerts.html" class="nav-item active">Alerts</a>
+        <a href="reports.html" class="nav-item">Farm Reports</a>
+        <a href="map.html" class="nav-item">Interactive Map</a>
+        <a href="settings.html" class="nav-item">Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
           <select class="farm-dropdown">
-            <option>Current Farm: My Farm</option>
+            <option value="main">Current Farm: My Farm</option>
           </select>
-        </header>
+        </div>
+        <div class="topbar-login">
+          <div class="bell-icon">
+            🔔
+            <span class="badge">3</span>
+          </div>
+          <span style="font-weight: 700;">Welcome, Manager</span>
+        </div>
+      </header>
 
-        <div
-          style="
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 20px;
-            width: 100%;
-          "
-        >
-          <!-- Left Column: Alerts List (Expands fully) -->
-          <div style="display: flex; flex-direction: column; gap: 16px">
-            <div>
-              <h2 style="font-size: 1.4rem; margin-bottom: 6px">
-                Alerts & Warnings
-              </h2>
-              <div
-                class="filter-tabs"
-                style="
-                  display: flex;
-                  gap: 15px;
-                  font-size: 0.85rem;
-                  color: var(--text-muted);
-                  cursor: pointer;
-                "
-              >
-                <span class="active" style="color: var(--accent-emerald)"
-                  >All</span
-                >
-                <span>High</span>
-                <span>Medium</span>
-                <span>Low</span>
-              </div>
-            </div>
-
-            <div
-              class="card"
-              style="border-left: 4px solid var(--accent-red); cursor: pointer"
-            >
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  margin-bottom: 6px;
-                "
-              >
-                <span
-                  style="
-                    font-size: 0.75rem;
-                    font-weight: 700;
-                    color: var(--accent-red);
-                  "
-                  >HIGH RISK</span
-                >
-                <span style="font-size: 0.8rem; color: var(--text-muted)"
-                  >⋮</span
-                >
-              </div>
-              <h3 style="font-size: 1.1rem; margin-bottom: 4px">Cage 02</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted)">
-                Current condition: 3.7 mg/L DO over 1 last 7 days
-              </p>
-            </div>
-
-            <div
-              class="card"
-              style="border-left: 4px solid #eab308; cursor: pointer"
-            >
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  margin-bottom: 6px;
-                "
-              >
-                <span
-                  style="font-size: 0.75rem; font-weight: 700; color: #eab308"
-                  >MEDIUM</span
-                >
-                <span style="font-size: 0.8rem; color: var(--text-muted)"
-                  >⋮</span
-                >
-              </div>
-              <h3 style="font-size: 1.1rem; margin-bottom: 4px">Cage 01</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted)">
-                Current condition: 3.7 mg/L DO - pH
-              </p>
-            </div>
-
-            <div
-              class="card"
-              style="
-                border-left: 4px solid var(--accent-emerald);
-                cursor: pointer;
-              "
-            >
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  margin-bottom: 6px;
-                "
-              >
-                <span
-                  style="
-                    font-size: 0.75rem;
-                    font-weight: 700;
-                    color: var(--accent-emerald);
-                  "
-                  >INFORMATION</span
-                >
-                <span style="font-size: 0.8rem; color: var(--text-muted)"
-                  >⋮</span
-                >
-              </div>
-              <h3 style="font-size: 1.1rem; margin-bottom: 4px">
-                Regional stable
-              </h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted)">
-                Current conditions differ significantly from historical
-                patterns.
-              </p>
+      <!-- Layout Grid matching your layout preview -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: start;">
+        
+        <!-- Left Column: Alerts List & Filters -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <div class="card animate-up delay-1">
+            <h2>Alerts & Warnings</h2>
+            <!-- Interactive Filter Tabs -->
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="filterAlerts('all', this)">All</button>
+              <button class="filter-tab" onclick="filterAlerts('high', this)">High</button>
+              <button class="filter-tab" onclick="filterAlerts('medium', this)">Medium</button>
+              <button class="filter-tab" onclick="filterAlerts('low', this)">Low</button>
             </div>
           </div>
 
-          <!-- Right Column: Alert Details Pane -->
-          <div
-            class="card"
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 16px;
-              height: fit-content;
-            "
-          >
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid var(--card-border);
-                padding-bottom: 12px;
-              "
-            >
-              <h3 style="font-size: 1.1rem">Alert Details</h3>
-              <span style="cursor: pointer; color: var(--text-muted)">✕</span>
-            </div>
+          <!-- High Risk Alert -->
+          <div class="card alert-card animate-up delay-2" data-risk="high" style="border-left: 5px solid var(--accent-red);">
+            <div style="font-size: 0.85rem; font-weight: 900; color: var(--accent-red); letter-spacing: 1px;">HIGH RISK</div>
+            <h2 style="margin-top: 5px;">Cage 02</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Current condition: 3.7 mg/L DO over last 7 days</p>
+          </div>
 
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.9rem;
-                border-bottom: 1px solid var(--card-border);
-                padding-bottom: 10px;
-              "
-            >
-              <span style="color: var(--text-muted)">Risk</span>
-              <span style="color: var(--accent-red); font-weight: 600"
-                >HIGH</span
-              >
+          <!-- Medium Risk Alert -->
+          <div class="card alert-card animate-up delay-3" data-risk="medium" style="border-left: 5px solid #f59e0b;">
+            <div style="font-size: 0.85rem; font-weight: 900; color: #f59e0b; letter-spacing: 1px;">MEDIUM</div>
+            <h2 style="margin-top: 5px;">Cage 01</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Current condition: 3.7 mg/L DO - pH</p>
+          </div>
+
+          <!-- Low Risk / Stable Alert -->
+          <div class="card alert-card animate-up delay-4" data-risk="low" style="border-left: 5px solid var(--accent-emerald);">
+            <div style="font-size: 0.85rem; font-weight: 900; color: var(--accent-emerald); letter-spacing: 1px;">REGIONAL STABLE</div>
+            <h2 style="margin-top: 5px;">Regional stable</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Current conditions differ significantly from historical patterns.</p>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Alert Details Panel -->
+        <div class="card animate-up delay-2" style="position: sticky; top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; margin-bottom: 15px;">
+            <h2 style="font-size: 1.2rem;">Alert Details</h2>
+            <span style="cursor: pointer; font-size: 1.2rem;">✕</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+              <span style="color: var(--text-muted);">Risk</span>
+              <span style="color: var(--accent-red); font-weight: 900;">HIGH</span>
             </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.9rem;
-                border-bottom: 1px solid var(--card-border);
-                padding-bottom: 10px;
-              "
-            >
-              <span style="color: var(--text-muted)">Affected area</span>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+              <span style="color: var(--text-muted);">Affected area</span>
               <span>Cage 02</span>
             </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.9rem;
-                border-bottom: 1px solid var(--card-border);
-                padding-bottom: 10px;
-              "
-            >
-              <span style="color: var(--text-muted)">Detected</span>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+              <span style="color: var(--text-muted);">Detected</span>
               <span>14:32</span>
             </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.9rem;
-                border-bottom: 1px solid var(--card-border);
-                padding-bottom: 10px;
-              "
-            >
-              <span style="color: var(--text-muted)">Current condition</span>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+              <span style="color: var(--text-muted);">Current condition</span>
               <span>3.7 mg/L DO</span>
             </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.9rem;
-                padding-bottom: 5px;
-              "
-            >
-              <span style="color: var(--text-muted)">Historical range</span>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+              <span style="color: var(--text-muted);">Historical range</span>
               <span>4.8–6.0 mg/L</span>
             </div>
 
-            <div
-              style="
-                background: rgba(4, 15, 28, 0.5);
-                padding: 12px;
-                border-radius: 8px;
-                border: 1px solid var(--card-border);
-              "
-            >
-              <div
-                style="
-                  font-size: 0.8rem;
-                  font-weight: 600;
-                  margin-bottom: 4px;
-                  color: var(--accent-emerald);
-                "
-              >
-                KIVU Intelligence insight:
-              </div>
-              <div style="font-size: 0.8rem; color: var(--text-muted)">
-                Current conditions differ significantly from historical
-                patterns.
-              </div>
+            <!-- AI Insight Box -->
+            <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid var(--card-border); padding: 12px; border-radius: 8px; margin-top: 5px;">
+              <span style="color: var(--accent-emerald); font-weight: 800; display: block; margin-bottom: 4px; font-size: 0.85rem;">KIVU Intelligence Insight:</span>
+              <span style="font-size: 0.85rem; color: var(--text-main);">Current conditions differ significantly from historical patterns.</span>
             </div>
 
-            <div
-              style="
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                margin-top: 10px;
-              "
-            >
-              <a
-                href="maps.html"
-                class="btn-primary"
-                style="text-align: center; text-decoration: none"
-                >View on Map</a
-              >
-              <a
-                href="analytics.html"
-                style="
-                  background: rgba(4, 15, 28, 0.8);
-                  border: 1px solid var(--card-border);
-                  color: var(--text-main);
-                  padding: 10px;
-                  border-radius: 8px;
-                  text-align: center;
-                  text-decoration: none;
-                  font-size: 0.9rem;
-                  font-weight: 600;
-                "
-                >View Analytics</a
-              >
-            </div>
+            <button class="btn-primary" style="margin-top: 10px; width: 100%; text-align: center;">View on Map</button>
+            <button class="btn-primary" style="margin-top: 5px; width: 100%; text-align: center; background: rgba(4, 12, 24, 0.5); border: 1px solid var(--card-border);">View Analytics</button>
           </div>
         </div>
-      </main>
-    </div>
-    <script src="js/api.js"></script>
-    <script src="js/app.js"></script>
-  </body>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Filter Function Script -->
+  <script>
+    function filterAlerts(riskLevel, element) {
+      // Update active states on tab buttons
+      document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+      element.classList.add('active');
+
+      // Filter alert cards
+      document.querySelectorAll('.alert-card').forEach(card => {
+        if (riskLevel === 'all' || card.getAttribute('data-risk') === riskLevel) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
 </html>
