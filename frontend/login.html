@@ -392,6 +392,8 @@
       </div>
     </div>
 
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
     <script>
       const signinView = document.getElementById("signin-view");
       const registerView = document.getElementById("register-view");
@@ -412,9 +414,10 @@
 
       document
         .getElementById("login-form")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
           const email = document.getElementById("login-email").value;
+          const password = document.getElementById("login-password").value;
 
           let namePart = email.split("@")[0];
           let formattedName = namePart
@@ -422,24 +425,59 @@
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(" ");
 
+          if (typeof API !== "undefined") {
+            try {
+              const res = await API.login(email, password);
+              if (res && res.success) {
+                localStorage.setItem("farmerName", formattedName);
+                localStorage.setItem("farmerEmail", email);
+                localStorage.setItem("auth", "true");
+                window.location.href = "analytics.html";
+                return;
+              }
+            } catch (err) {
+              console.warn("API Login endpoint unavailable, continuing in demo session mode:", err);
+            }
+          }
+
           localStorage.setItem("farmerName", formattedName);
           localStorage.setItem("farmerEmail", email);
           localStorage.setItem("auth", "true");
-
           window.location.href = "analytics.html";
         });
 
       document
         .getElementById("register-form")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
           const name = document.getElementById("reg-name").value;
           const email = document.getElementById("reg-email").value;
+          const phone = document.getElementById("reg-phone").value;
+          const password = document.getElementById("reg-password").value;
+
+          if (typeof API !== "undefined") {
+            try {
+              const res = await API.request("/auth/register", {
+                method: "POST",
+                body: JSON.stringify({ name, email, phone_number: phone, password }),
+              });
+              if (res && res.data && res.data.access_token) {
+                localStorage.setItem("access_token", res.data.access_token);
+                localStorage.setItem("refresh_token", res.data.refresh_token);
+                localStorage.setItem("farmerName", name);
+                localStorage.setItem("farmerEmail", email);
+                localStorage.setItem("auth", "true");
+                window.location.href = "analytics.html";
+                return;
+              }
+            } catch (err) {
+              console.warn("API Registration endpoint unavailable, continuing in demo session mode:", err);
+            }
+          }
 
           localStorage.setItem("farmerName", name);
           localStorage.setItem("farmerEmail", email);
           localStorage.setItem("auth", "true");
-
           window.location.href = "analytics.html";
         });
     </script>

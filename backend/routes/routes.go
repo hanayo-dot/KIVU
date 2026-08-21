@@ -42,18 +42,14 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 	aiH := handlers.NewAIHandler(db, aiEngine)
 	alertH := handlers.NewAlertHandler(alertService)
 
-	// Detect frontend directory location (supports running from root or backend/)
-	frontendDir := "./frontend"
-	if _, err := os.Stat(frontendDir); os.IsNotExist(err) {
-		if _, err := os.Stat("../frontend"); err == nil {
-			frontendDir = "../frontend"
-		}
-	}
+	// Detect frontend directory location (supports running from root, backend/, or backend/cmd/)
+	frontendDir := findFrontendDir()
 
 	// Serve static web frontend
 	if _, err := os.Stat(frontendDir); err == nil {
 		r.Static("/css", filepath.Join(frontendDir, "css"))
 		r.Static("/js", filepath.Join(frontendDir, "js"))
+		r.Static("/images", filepath.Join(frontendDir, "images"))
 		r.StaticFile("/", filepath.Join(frontendDir, "index.html"))
 		r.StaticFile("/index.html", filepath.Join(frontendDir, "index.html"))
 		r.StaticFile("/login.html", filepath.Join(frontendDir, "login.html"))
@@ -61,6 +57,7 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 		r.StaticFile("/analytics.html", filepath.Join(frontendDir, "analytics.html"))
 		r.StaticFile("/maps.html", filepath.Join(frontendDir, "maps.html"))
 		r.StaticFile("/reports.html", filepath.Join(frontendDir, "reports.html"))
+		r.StaticFile("/settings.html", filepath.Join(frontendDir, "settings.html"))
 	}
 
 	// Public Endpoints
@@ -120,4 +117,19 @@ func SetupRouter(cfg *config.Config, db *sqlx.DB) *gin.Engine {
 	}
 
 	return r
+}
+
+func findFrontendDir() string {
+	candidates := []string{
+		"./frontend",
+		"../frontend",
+		"../../frontend",
+		"../../../frontend",
+	}
+	for _, candidate := range candidates {
+		if fi, err := os.Stat(filepath.Join(candidate, "index.html")); err == nil && !fi.IsDir() {
+			return candidate
+		}
+	}
+	return "./frontend"
 }
