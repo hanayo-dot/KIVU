@@ -10,7 +10,7 @@ VALUES (
     'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     'Maina Farmer',
     '+254700000000',
-    '$2a$12$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad6J1B4B48p.D9m',
+    '$2a$12$BhtvxvGcqkMbLTcuoJPAf.VV6vs8bXyVXwiFnAdJTET4D7WtPEEPu',
     'Homa Bay Central'
 ) ON CONFLICT (phone_number) DO NOTHING;
 
@@ -95,25 +95,25 @@ VALUES
 INSERT INTO lake_zones (id, name, boundary, region_label)
 VALUES
 (
-    'z1eebc99-9c0b-4ef8-bb6d-6bb9bd380a41',
+    'b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a41',
     'Homa Bay Sector',
     ST_SetSRID(ST_GeomFromText('POLYGON((34.40 -0.55, 34.50 -0.55, 34.50 -0.48, 34.40 -0.48, 34.40 -0.55))'), 4326)::geography,
     'Kenya Waters'
 ),
 (
-    'z2eebc99-9c0b-4ef8-bb6d-6bb9bd380a42',
+    'b2eebc99-9c0b-4ef8-bb6d-6bb9bd380a42',
     'Mbita & Rusinga Channel',
     ST_SetSRID(ST_GeomFromText('POLYGON((34.10 -0.45, 34.30 -0.45, 34.30 -0.35, 34.10 -0.35, 34.10 -0.45))'), 4326)::geography,
     'Kenya Waters'
 ),
 (
-    'z3eebc99-9c0b-4ef8-bb6d-6bb9bd380a43',
+    'b3eebc99-9c0b-4ef8-bb6d-6bb9bd380a43',
     'Winam Gulf Offshore',
     ST_SetSRID(ST_GeomFromText('POLYGON((34.50 -0.40, 34.75 -0.40, 34.75 -0.15, 34.50 -0.15, 34.50 -0.40))'), 4326)::geography,
     'Kenya Waters'
 ),
 (
-    'z4eebc99-9c0b-4ef8-bb6d-6bb9bd380a44',
+    'b4eebc99-9c0b-4ef8-bb6d-6bb9bd380a44',
     'Mwanza Gulf Region',
     ST_SetSRID(ST_GeomFromText('POLYGON((32.80 -2.60, 33.10 -2.60, 33.10 -2.30, 32.80 -2.30, 32.80 -2.60))'), 4326)::geography,
     'Tanzania Waters'
@@ -122,18 +122,18 @@ VALUES
 -- 7. Zone Metrics (Satellite Composites)
 INSERT INTO zone_metrics (zone_id, period, avg_dissolved_oxygen, avg_temperature, avg_ph, avg_turbidity, risk_level, trend)
 VALUES
-('z1eebc99-9c0b-4ef8-bb6d-6bb9bd380a41', '2026-08', 3.2, 27.5, 7.2, 38.0, 'high', 'deteriorating'),
-('z2eebc99-9c0b-4ef8-bb6d-6bb9bd380a42', '2026-08', 6.8, 25.1, 7.9, 11.2, 'low', 'improving'),
-('z3eebc99-9c0b-4ef8-bb6d-6bb9bd380a43', '2026-08', 5.4, 26.0, 7.6, 21.0, 'moderate', 'stable'),
-('z4eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', '2026-08', 7.1, 24.5, 8.1, 8.5, 'low', 'stable');
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a41', '2026-08', 3.2, 27.5, 7.2, 38.0, 'high', 'deteriorating'),
+('b2eebc99-9c0b-4ef8-bb6d-6bb9bd380a42', '2026-08', 6.8, 25.1, 7.9, 11.2, 'low', 'improving'),
+('b3eebc99-9c0b-4ef8-bb6d-6bb9bd380a43', '2026-08', 5.4, 26.0, 7.6, 21.0, 'moderate', 'stable'),
+('b4eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', '2026-08', 7.1, 24.5, 8.1, 8.5, 'low', 'stable');
 
 -- 8. Expansion Signals
 INSERT INTO expansion_signals (zone_id, suitability, rationale)
 VALUES
-('z1eebc99-9c0b-4ef8-bb6d-6bb9bd380a41', 'high_risk', 'High turbidity and low dissolved oxygen levels detected via Sentinel-3 LWQ composite.'),
-('z2eebc99-9c0b-4ef8-bb6d-6bb9bd380a42', 'high_suitability', 'Optimal temperature (25.1°C), low turbidity (11.2 NTU), and strong natural water exchange.'),
-('z3eebc99-9c0b-4ef8-bb6d-6bb9bd380a43', 'watch', 'Moderate nutrient loading; monitoring seasonal turn-over.'),
-('z4eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'high_suitability', 'Excellent dissolved oxygen stability and clean open water.');
+('b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a41', 'high_risk', 'High turbidity and low dissolved oxygen levels detected via Sentinel-3 LWQ composite.'),
+('b2eebc99-9c0b-4ef8-bb6d-6bb9bd380a42', 'high_suitability', 'Optimal temperature (25.1°C), low turbidity (11.2 NTU), and strong natural water exchange.'),
+('b3eebc99-9c0b-4ef8-bb6d-6bb9bd380a43', 'watch', 'Moderate nutrient loading; monitoring seasonal turn-over.'),
+('b4eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', 'high_suitability', 'Excellent dissolved oxygen stability and clean open water.');
 
 -- 9. Pre-existing Alerts
 INSERT INTO alerts (scope, related_id, severity, message, triggered_at, acknowledged)
