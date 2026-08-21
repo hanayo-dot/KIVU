@@ -3,21 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - AquaAI Command Centre</title>
+    <title>Login - KIVU Command Centre</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body class="auth-body">
     <div class="auth-card">
-      <h2>AQUA AI COMMAND</h2>
+      <div class="logo" style="text-align: center; margin-bottom: 20px">
+        KIVU
+      </div>
+      <h2>Command Center Login</h2>
+
       <form id="login-form">
         <div class="form-group">
-          <label>Farm Operator Email</label>
-          <input type="email" id="email" required value="farmer@lakeview.com" />
+          <label>Email Address</label>
+          <input
+            type="email"
+            id="login-email"
+            value="farmer@lakeview.com"
+            required
+          />
         </div>
         <div class="form-group">
-          <label>Security Password</label>
-          <input type="password" id="password" required value="password123" />
+          <label>Password</label>
+          <input
+            type="password"
+            id="login-password"
+            value="password123"
+            required
+          />
         </div>
+
+        <div
+          id="login-error"
+          style="
+            color: var(--accent-red);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            display: none;
+          "
+        >
+          Invalid email or password. Please try again.
+        </div>
+
         <button type="submit" class="btn-primary">Authenticate Session</button>
       </form>
     </div>
