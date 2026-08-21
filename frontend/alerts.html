@@ -41,7 +41,7 @@
           <a href="analytics.html" class="nav-item">Analytics</a>
           <a href="alerts.html" class="nav-item active">Alerts</a>
           <a href="reports.html" class="nav-item">Farm Reports</a>
-          <a href="map.html" class="nav-item">Interactive Map</a>
+          <a href="maps.html" class="nav-item">Interactive Map</a>
           <a href="settings.html" class="nav-item">Settings</a>
         </nav>
       </aside>
@@ -55,12 +55,42 @@
               <option value="main">Current Farm: My Farm</option>
             </select>
           </div>
-          <div class="topbar-login">
-            <div class="bell-icon">
-              🔔
-              <span class="badge">3</span>
-            </div>
-            <span style="font-weight: 700">Welcome, Manager</span>
+          <div
+            class="topbar-login"
+            style="display: flex; align-items: center; gap: 20px"
+          >
+            <a
+              href="alerts.html"
+              id="bell-container"
+              title="View Alerts"
+              style="
+                text-decoration: none;
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                cursor: pointer;
+              "
+            >
+              <span>🔔</span>
+              <span
+                id="notification-badge"
+                style="
+                  background: var(--accent-red);
+                  color: white;
+                  padding: 2px 6px;
+                  border-radius: 50%;
+                  font-size: 0.7rem;
+                "
+                >3</span
+              >
+            </a>
+            <span
+              id="topbar-username"
+              style="font-weight: 700; color: var(--text-main)"
+              >Welcome, Manager</span
+            >
           </div>
         </header>
 
@@ -254,7 +284,6 @@
               </div>
 
               <!-- AI Insight Box -->
-              <!-- AI Insight Box with Solid High-Contrast Background -->
               <div
                 style="
                   background: rgba(4, 12, 24, 0.75);
@@ -306,8 +335,24 @@
       </main>
     </div>
 
-    <!-- Filter Function Script -->
+    <!-- Script to handle filters, sync username, and clear notification count -->
     <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Sync username from local storage if available
+        const savedName = localStorage.getItem("farmerName");
+        if (savedName) {
+          document.getElementById("topbar-username").textContent =
+            "Welcome, " + savedName;
+        }
+
+        // Mark alerts as seen and hide badge on load
+        localStorage.setItem("alertsSeen", "true");
+        const badge = document.getElementById("notification-badge");
+        if (badge) {
+          badge.style.display = "none";
+        }
+      });
+
       function filterAlerts(riskLevel, element) {
         // Update active states on tab buttons
         document
@@ -328,5 +373,6 @@
         });
       }
     </script>
+    <script src="js/app.js"></script>
   </body>
 </html>
