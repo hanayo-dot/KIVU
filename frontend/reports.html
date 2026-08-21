@@ -65,8 +65,8 @@
                       cursor: pointer;
                     "
                   >
-                    <div style="font-size: 1.5rem; margin-bottom: 5px">
-                      🐟
+                    <div style="margin-bottom: 5px">
+                      <i data-lucide="fish" style="width: 24px; height: 24px;"></i>
                     </div>
                     <div style="font-size: 0.75rem">Fish Stress</div>
                   </div>
@@ -82,7 +82,9 @@
                       box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
                     "
                   >
-                    <div style="font-size: 1.5rem; margin-bottom: 5px">💀</div>
+                    <div style="margin-bottom: 5px">
+                      <i data-lucide="skull" style="width: 24px; height: 24px; color: var(--accent-red);"></i>
+                    </div>
                     <div style="font-size: 0.75rem">Fish Mortality</div>
                   </div>
                   <div
@@ -96,7 +98,9 @@
                       cursor: pointer;
                     "
                   >
-                    <div style="font-size: 1.5rem; margin-bottom: 5px">💧</div>
+                    <div style="margin-bottom: 5px">
+                      <i data-lucide="droplets" style="width: 24px; height: 24px; color: #38bdf8;"></i>
+                    </div>
                     <div style="font-size: 0.75rem">Water Discoloration</div>
                   </div>
                   <div
@@ -110,7 +114,9 @@
                       cursor: pointer;
                     "
                   >
-                    <div style="font-size: 1.5rem; margin-bottom: 5px">🟢</div>
+                    <div style="margin-bottom: 5px">
+                      <i data-lucide="sprout" style="width: 24px; height: 24px; color: var(--accent-emerald);"></i>
+                    </div>
                     <div style="font-size: 0.75rem">Algal Growth</div>
                   </div>
                   <div
@@ -124,7 +130,9 @@
                       cursor: pointer;
                     "
                   >
-                    <div style="font-size: 1.5rem; margin-bottom: 5px">🌊</div>
+                    <div style="margin-bottom: 5px">
+                      <i data-lucide="waves" style="width: 24px; height: 24px; color: #38bdf8;"></i>
+                    </div>
                     <div style="font-size: 0.75rem">Unusual Water</div>
                   </div>
                 </div>
@@ -223,10 +231,11 @@
 
               <!-- Toast Popup Notification -->
               <div
+                id="success-toast"
                 class="toast-popup"
                 style="
                   display: none;
-                  background: #065f46;
+                  background: rgba(16, 185, 129, 0.15);
                   border: 1px solid #34d399;
                   padding: 12px 16px;
                   border-radius: 8px;
@@ -234,7 +243,7 @@
                   gap: 12px;
                 "
               >
-                <span style="font-size: 1.2rem">✔</span>
+                <i data-lucide="check-circle-2" style="width: 22px; height: 22px; color: #34d399;"></i>
                 <div>
                   <div style="font-weight: 600; font-size: 0.9rem">
                     Observation recorded.
@@ -254,6 +263,7 @@
       </main>
     </div>
     <script src="js/api.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

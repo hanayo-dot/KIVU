@@ -156,16 +156,16 @@
             <!-- Preset Zone Quick Nav -->
             <div style="display: flex; gap: 8px; flex-wrap: wrap">
               <button class="zone-btn active" onclick="jumpToZone(-0.45, 34.20, 'Winam Gulf (Kisumu)')">
-                📍 Winam Gulf
+                <i data-lucide="map-pin" style="width: 13px; height: 13px; vertical-align: middle;"></i> Winam Gulf
               </button>
               <button class="zone-btn" onclick="jumpToZone(-0.35, 34.05, 'Rusinga Channel')">
-                📍 Rusinga Channel
+                <i data-lucide="map-pin" style="width: 13px; height: 13px; vertical-align: middle;"></i> Rusinga Channel
               </button>
               <button class="zone-btn" onclick="jumpToZone(-0.52, 34.45, 'Homa Bay Sector')">
-                📍 Homa Bay
+                <i data-lucide="map-pin" style="width: 13px; height: 13px; vertical-align: middle;"></i> Homa Bay
               </button>
               <button class="zone-btn" onclick="jumpToZone(-1.50, 33.80, 'Speke Gulf (Mwanza)')">
-                📍 Speke Gulf
+                <i data-lucide="map-pin" style="width: 13px; height: 13px; vertical-align: middle;"></i> Speke Gulf
               </button>
             </div>
           </div>
@@ -188,9 +188,12 @@
                   border-radius: 8px;
                   font-size: 0.75rem;
                   color: var(--text-muted);
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
                 "
               >
-                💡 Tip: Click anywhere on the water body to pin point telemetry
+                <i data-lucide="lightbulb" style="width: 15px; height: 15px; color: #38bdf8;"></i> Tip: Click anywhere on the water body to pin point telemetry
               </div>
             </div>
 
@@ -226,32 +229,32 @@
                 <!-- Telemetry Gauges Grid -->
                 <div style="display: flex; flex-direction: column; gap: 8px">
                   <div class="metric-badge">
-                    <span class="metric-label">🌊 Dissolved Oxygen (DO)</span>
+                    <span class="metric-label"><i data-lucide="waves" style="width: 15px; height: 15px; color: #38bdf8;"></i> Dissolved Oxygen (DO)</span>
                     <span id="val-do" class="metric-value" style="color: #22c55e">6.8 mg/L</span>
                   </div>
 
                   <div class="metric-badge">
-                    <span class="metric-label">🌡️ Surface Temperature</span>
+                    <span class="metric-label"><i data-lucide="thermometer" style="width: 15px; height: 15px; color: #f97316;"></i> Surface Temperature</span>
                     <span id="val-temp" class="metric-value">25.4 °C</span>
                   </div>
 
                   <div class="metric-badge">
-                    <span class="metric-label">🧪 Water pH Level</span>
+                    <span class="metric-label"><i data-lucide="flask-conical" style="width: 15px; height: 15px; color: #a855f7;"></i> Water pH Level</span>
                     <span id="val-ph" class="metric-value">7.6 pH</span>
                   </div>
 
                   <div class="metric-badge">
-                    <span class="metric-label">🌫️ Water Turbidity</span>
+                    <span class="metric-label"><i data-lucide="cloud-fog" style="width: 15px; height: 15px; color: #94a3b8;"></i> Water Turbidity</span>
                     <span id="val-turbidity" class="metric-value">11.5 NTU</span>
                   </div>
 
                   <div class="metric-badge">
-                    <span class="metric-label">🟢 Chlorophyll-a</span>
+                    <span class="metric-label"><i data-lucide="sprout" style="width: 15px; height: 15px; color: #22c55e;"></i> Chlorophyll-a</span>
                     <span id="val-chla" class="metric-value" style="color: #38bdf8">13.2 µg/L</span>
                   </div>
 
                   <div class="metric-badge">
-                    <span class="metric-label">👁️ Secchi Transparency</span>
+                    <span class="metric-label"><i data-lucide="eye" style="width: 15px; height: 15px; color: #38bdf8;"></i> Secchi Transparency</span>
                     <span id="val-secchi" class="metric-value">2.6 m</span>
                   </div>
                 </div>
@@ -288,6 +291,7 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""></script>
     <script src="js/api.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/app.js"></script>
     <script>
       let map;
@@ -419,8 +423,8 @@
         } else {
           const pinIcon = L.divIcon({
             className: "copernicus-pin",
-            html: `<div style="font-size:1.8rem; text-shadow:0 0 10px rgba(56,189,248,0.8); margin-top:-20px; margin-left:-10px">📍</div>`,
-            iconSize: [24, 24]
+            html: `<div style="margin-top:-24px; margin-left:-12px"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#0284c7" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 8px #38bdf8)"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="#ffffff"/></svg></div>`,
+            iconSize: [28, 28]
           });
           activeMarker = L.marker([lat, lng], { icon: pinIcon }).addTo(map);
         }
