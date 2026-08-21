@@ -17,6 +17,7 @@ type CopernicusClient struct {
 	accessToken string
 	expiresAt   time.Time
 	mu          sync.Mutex
+	TokenURL    string
 }
 
 // NewCopernicusClient initializes a new CopernicusClient.
@@ -37,7 +38,10 @@ func (c *CopernicusClient) GetAccessToken() (string, error) {
 		return "", fmt.Errorf("copernicus credentials missing in environment")
 	}
 
-	tokenURL := "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
+	tokenURL := c.TokenURL
+	if tokenURL == "" {
+		tokenURL = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
+	}
 	resp, err := http.PostForm(tokenURL, url.Values{
 		"client_id":     {c.cfg.CopernicusClientID},
 		"client_secret": {c.cfg.CopernicusClientSecret},
